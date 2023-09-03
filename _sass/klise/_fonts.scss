@@ -1,6 +1,14 @@
 @charset "utf-8";
 
 @font-face {
+  font-family: 'RIDIBatang';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+       url('../fonts/RIDIBatang.woff') format('woff');
+}
+
+@font-face {
   font-family: "Roboto";
   font-style: normal;
   font-weight: 400;
