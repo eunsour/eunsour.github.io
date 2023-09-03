@@ -1,7 +1,7 @@
 # Site settings
 title: Eunsoo Kang # site title
 description: Joy of Growth
-lang: en-US # default lang
+lang: ko-KR # default lang
 timezone: Asia/Seoul # set your timezone
 image: assets/img/ogp.png # This image used for Open Graph more info https://ogp.me/
 repo: https://github.com/eunsour # site repo [optional]
