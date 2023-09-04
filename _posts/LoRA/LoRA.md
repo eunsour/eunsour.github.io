@@ -1,4 +1,9 @@
-
+---
+title: LoRA 정리
+date: 2023-09-05 11:58:47 +07:00
+modified: 2023-09-05 11:58:47 +07:00
+tags: [NLP]
+---
 
 ## Introduce
 
