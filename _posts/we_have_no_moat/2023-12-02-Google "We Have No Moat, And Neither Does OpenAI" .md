@@ -36,7 +36,7 @@ Google과 OpenAI가 arms race, 즉 군비 경쟁을 벌이는 동안 제 3의 �
 
 <br>
 
-<center><img src="/assets/img/we_have_no_moat/chart.png" style="zoom: 50%;" /></center>
+<center><img src="/assets/img/we_have_no_moat/chart.png"/></center>
 
 
 <br>
@@ -85,7 +85,7 @@ LoRA가 효과적인 이유 중 하나는 다른 형태의 파인 튜닝과 마�
 
 우리는 각각의 새로운 애플리케이션이나 아이디어에 대해 정말로 완전히 새로운 모델이 필요한지 신중하게 생각해야 한다. 모델 가중치를 직접 재사용할 수 없을 정도로 아키텍처가 크게 개선되었다면 이전 세대의 기능을 최대한 유지할 수 있는 보다 공격적인 형태의 distillation에 투자해야 한다.
 
-
+<br>
 
 ## Large models aren’t more capable in the long run if we can iterate faster on small models
 
@@ -101,7 +101,7 @@ LoRA 업데이트는 가장 인기 있는 모델 사이즈의 경우 제작 비�
 
 프로젝트 중 상당수는 고도로 선별된 소규모 데이터 셋을 학습하여 시간을 절약하고 있다. 이는 데이터 확장 법칙에 어느 정도 유연성이 있음을 시사한다. 이러한 데이터 셋의 존재는 '데이터는 생각대로 동작하지 않는다'의 사고 방식에서 비롯된 것으로, Google 외부에서 학습을 수행하는 표준 방식으로 빠르게 자리 잡고 있다. 이러한 데이터 셋은 합성 방법(예: 기존 모델에서 최상의 응답을 필터링)과 다른 프로젝트에서 스크래빙을 통해 구축되며, 이 두 가지 방법 중 어느 것도 Google에서 널리 사용되는 방법은 아니지만 다행히도 이러한 고품질 데이터 셋은 오픈 소스이므로 무료로 사용할 수 있다.
 
-
+<br>
 
 ## Directly Competing With Open Source Is a Losing Proposition
 
@@ -111,7 +111,7 @@ LoRA 업데이트는 가장 인기 있는 모델 사이즈의 경우 제작 비�
 
 그리고 우리가 따라잡을 수 있을 거라고 기대해서는 안된다. 현대 인터넷이 오픈소스로 운영되는 데에는 이유가 있으며, 오픈소스에는 우리가 복제할 수 없는 몇 가지 중요한 이점이 있다.
 
-
+<br>
 
 ## We need them more than they need us
 
