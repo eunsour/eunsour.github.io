@@ -1,7 +1,7 @@
 ---
 title: Google "We Have No Moat, And Neither Does OpenAI" 
 date: 2023-12-02 12:30:47 +09:00
-modified: 2023-12-24 11:58:47 +09:00
+modified: 2023-12-02 12:30:47 +09:00
 tags: [NLP]
 usemathjax: true
 ---
