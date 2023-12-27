@@ -9,11 +9,12 @@ usemathjax: true
 
 > 아래 내용들은 Google 내부에서 유출된 문서로 그 진위 여부를 확인한 내용이며, 회사 전체가 아닌 Google 직원의 의견일 뿐이라고 말하고 있다.
 
+<br>
+
 ## We Have No Moat And neither does OpenAI
 
 **"우리에게는 해자가 없으며, 이는 OpenAI도 마찬가지이다."**<br><br>
 
-<br>
 <center><img src="/assets/img/we_have_no_moat/1.jpeg"/></center>
 <br>
 
