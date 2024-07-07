@@ -10,7 +10,7 @@ tags:
 usemathjax: true
 ---
 
-Apple은 지난 6월 10일 WWDC에서 iOS 18, iPadOS 18, 그리고 macOS Sequoia에 탑재될 Apple Intelligence에 대해 발표하였다. 이와 함께 두 가지 언어 모델도 공개하였다.
+Apple은 지난 6월 10일 WWDC24에서 iOS 18, iPadOS 18, 그리고 macOS Sequoia에 탑재될 Apple Intelligence에 대해 발표하였다. 이와 함께 두 가지 언어 모델도 공개하였다.
 
 - 3B 크기의 온디바이스 언어 모델
 - Apple 실리콘 서버에서 실행되는 더 큰 서버 기반의 언어 모델
@@ -29,20 +29,18 @@ OpenELM의 대표적인 특징은 다음과 같다:
 
 - 트랜스포머의 각 레이어에서 파라미터 수를 변화시킴으로써 모델 전체의 파라미터를 효율적으로 분배하는 **‘layer-wise scaling’** 기술을 사용한다.
   - <img src="/assets/img/apple/1.png" style="zoom: 50%;" />
-  - 원본 논문에서는 이 기술을 **'block-wise scaling'**이라고 소개하였다.
+  - [원본 논문](https://arxiv.org/abs/2008.00623)에서는 이 기술을 **'block-wise scaling'**이라고 소개하였다.
   
-- 입력에 가까운 레이어에서는 어텐션과 피드 포워드 네트워크의 파라미터 차원을 작게 하고, 출력에 가까워질수록 레이어의 차원을 넓게 할당한다.
+- 입력에 가까운 레이어에서는 어텐션과 피드 포워드 네트워크의 파라미터 차원을 작게 하고, 출력에 가까워질수록 레이어의 차원을 넓게 할당한다.  
 
 
 OpenELM이 사전 학습에 사용한 아키텍처는 다음과 같다:
-
 - RMSNorm을 사용하여 pre-normalization
 - 위치 임베딩 → 회전식 위치 임베딩(RoPE)
 - 멀티 헤드 어텐션(MHA) → 그룹화된 쿼리 어텐션(GQA)
 - 피드 포워드 네트워크(FFN) → SwiGLU FFN
 - scaled dot product 연산에 flash attention
-- LLaMA Tokenizer
-
+- LLaMA Tokenizer  
 
 
 Flash Attention을 제외하면, OpenELM 모델은 LLaMA2-34B 이상의 모델 및 LLaMA3의 훈련 아키텍처와 동일하였다. instruct tuning에는 rejection sampling 또는 DPO(Direct Preference Optimization)를 사용하였으며, PEFT 기법으로는 LoRA와 DoRA를 활용했지만, 두 기법 간의 성능 차이는 크지 않았다.
@@ -87,7 +85,7 @@ Apple은 기본 모델을 훈련 후 두 가지 새로운 알고리즘을 개발
 
 # Optimization
 
-추론 속도와 효율성을 위해 온디바이스 및 프라이빗 클라우드에서 최적화하기 위해 다양한 혁신적인 기법들을 사용하였다. 
+추론 속도와 효율성을 위해 온디바이스 및 프라이빗 클라우드에서 최적화하기 위한 다양한 혁신적인 기법들을 사용하였다. 
 
 - GQA
 - low-bit palletization
@@ -158,8 +156,6 @@ Apple의 모델은 M1 이상 칩이 탑재된 MacBook과 A17 Pro 칩이 탑재�
 
 언어 모델은 어텐션 메커니즘와 피드 포워드 네트워크라는 두 가지 중요한 요소로 구성된 트랜스포머 블록에 의존한다. 연구에 따르면, LLM의 FFN은 희소성이 높아 활성화 후 값이 0이 되거나 거의 0에 가까워져 추론과 관련이 없게 되는 경우가 많다. 
 
-Apple의 연구진들은 추론 중에 희소하지 않은 요소만 찾아 로드하면 메모리 비용을 획기적으로 줄일 수 있으며, 그들의 전략은 비교적 작은 어텐션 레이어를 완전히 로드하는 동시에 FFN의 희소하지 않은 세그먼트만 DRAM에 선택적으로 로드하는 것이다. 
-
 Apple의 연구진은 추론 중에 희소하지 않은 요소만 찾아 로드하면 메모리 비용을 획기적으로 줄일 수 있다고 밝혔다. 그들의 전략은 비교적 작은 어텐션 레이어를 완전히 로드하는 동시에 FFN의 희소하지 않은 세그먼트만 DRAM에 선택적으로 로드하는 것이다.
 
 이를 달성하기 위해 FFN의 어느 부분이 비희소할지를 결정하고 로드해야 하는 데이터 양을 줄이는 "Low Rank Predictor" 네트워크를 사용한다. 그런 다음, 이 예측기가 식별한 활성 뉴런을 메모리로 전송한다.
@@ -190,7 +186,7 @@ OPT 및 Falcon 모델의 경우, upward projection에서 𝑖번째 열과 downw
 
 ### Faster LLMs on low-memory devices
 
-플래시 메모리로 사용되는 1TB SSD가 있는 M1 Max에서 각 추론에 대해 플래시 메모리에서 RAM으로 모델을 naive하게 로드하면 토큰당 2.1초의 지연 시간이 발생하게 된다. 하지만 위에서 소개한 sparsity prediction, windowing, intelligent storage와 같은 새로운 기술을 구현함으로써 이 지연 시간을 약 200밀리초로 단축하였니다. GPU가 장착된 시스템에서 개선 효과는 더욱 두드러졌다.
+플래시 메모리로 사용되는 1TB SSD가 있는 M1 Max에서 각 추론에 대해 플래시 메모리에서 RAM으로 모델을 naive하게 로드하면 토큰당 2.1초의 지연 시간이 발생하게 된다. 하지만 위에서 소개한 sparsity prediction, windowing, intelligent storage와 같은 새로운 기술을 구현함으로써 이 지연 시간을 약 200밀리초로 단축하였니다. GPU가 장착된 시스템에서 개선 효과는 더욱 두드러졌다.  
 
 <center><img src="/assets/img/apple/7.png" style="zoom: 75%;" /></center>
 
@@ -200,8 +196,8 @@ OPT 및 Falcon 모델의 경우, upward projection에서 𝑖번째 열과 downw
 
 # Model Adaptation
 
-[LoRA](https://arxiv.org/abs/2106.09685)는 파인튜닝 과정에서 효율성을 높이기 위해 개발된 기법이다. 
-특정 레이어의 파라미터를 저차원(low-rank)으로 분해하여 일부만 업데이트함으로써 메모리와 계산량을 크게 줄이며, 적은 수의 파라미터만 저장하고 업데이트할 수 있어 대규모 모델의 파인튜닝에서 효율적이다. 이는 다양한 응용 분야에 쉽게 적용할 수 있으며, 원래 모델의 성능을 유지하면서도 특정 작업에 맞게 조정할 수 있다.
+[LoRA](https://arxiv.org/abs/2106.09685)는 파인튜닝 과정에서 효율성을 높이기 위해 개발된 기법이다.  
+특정 레이어의 파라미터를 저차원(low-rank)으로 분해하여 일부만 업데이트함으로써 메모리와 계산량을 크게 줄이며, 적은 수의 파라미터만 저장하고 업데이트할 수 있어 대규모 모델의 파인튜닝에서 효율적이다. 이는 다양한 응용 분야에 쉽게 적용할 수 있으며, 원래 모델의 성능을 유지하면서도 특정 작업에 맞게 조정할 수 있다.  
 
 <center><img src="/assets/img/apple/8.png" style="zoom: 75%;" /></center>
 
@@ -212,12 +208,12 @@ Apple 온디바이스 모델은 rank 16의 LoRA 어댑터를 사용하여 추론
 # Performance and Evaluation
 
 <center><img src="/assets/img/apple/9.png" style="zoom: 75%;" /></center>
-제품별 요약 기능을 평가하기 위해 각 사용 사례에서 신중하게 샘플링한 750개의 응답 세트를 사용하여 인간 만족도 점수를 평가하였다. Apple 온디바이스 모델 + 어댑터를 phi-3-mini 기본 모델과 비교했을 때, Apple의 모델이 더 나은 요약을 생성하는 것을 확인할 수 있다. 그러나 공정한 비교는 Apple 온디바이스 모델 + 어댑터와 phi-3-mini + 어댑터 간의 비교였을 텐데, Apple은 그렇게 하지 않았다.
+제품별 요약 기능을 평가하기 위해 각 사용 사례에서 신중하게 샘플링한 750개의 응답 세트를 사용하여 인간 만족도 점수를 평가하였다. Apple 온디바이스 모델 + 어댑터를 phi-3-mini 기본 모델과 비교했을 때, Apple의 모델이 더 나은 요약을 생성하는 것을 확인할 수 있다. 그러나 공정한 비교는 Apple 온디바이스 모델 + 어댑터와 phi-3-mini + 어댑터 간의 비교였을 텐데, Apple은 그렇게 하지 않았다.  
 
 <center><img src="/assets/img/apple/10.png" style="zoom: 75%;" /></center>
 온디바이스 및 서버 기반 모델의 일반적인 기능을 평가하였다. 일반 모델 기능을 테스트하기 위해 난이도에 따라 다양한 브레인스토밍, 분류, 비공개 질문 답변, 코딩, 추출, 수학적 추론, 공개 질문 답변, 재작성, 안전, 요약 및 쓰기 등의 포괄적인 평가 세트를 활용하였다. Apple의 서버 모델은 MoE(Mixture of Experts) 모델들과 비교했으며, 이는 서버 모델 또한 MoE로 구현되었을 가능성이 높다.
 
-Apple의 모델은 대부분의 비슷한 경쟁 모델보다 인간 평가자들에게 더 선호된다는 결과를 얻었다.
+Apple의 모델은 대부분의 비슷한 경쟁 모델보다 인간 평가자들에게 더 선호된다는 결과를 얻었다.  
 
 <center><img src="/assets/img/apple/11.png" style="zoom: 75%;" /></center>
 <center><img src="/assets/img/apple/12.png" style="zoom: 75%;" /></center>
