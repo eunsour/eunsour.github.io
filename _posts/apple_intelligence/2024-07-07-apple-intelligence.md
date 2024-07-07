@@ -1,10 +1,12 @@
 ---
 title: "[WWDC24 리뷰] Apple Intelligence"
 date: 2024-07-07 11:58:47 +09:00
-date: 2024-07-07 11:58:47 +09:00
+modified: 2024-07-07 11:58:47 +09:00
 tags: 
     - WWDC2024
     - Apple Intelligence
+    - LLM
+    - On-Device
 usemathjax: true
 ---
 
@@ -22,17 +24,14 @@ Apple은 지난 6월 10일 WWDC에서 iOS 18, iPadOS 18, 그리고 macOS Sequoia
 
 Apple은 기본 모델로 어떤 모델을 사용하는지 명확하게 밝히지는 않았지만, 지난 4월 3B 매개변수 버전을 포함한 [OpenELM](https://arxiv.org/abs/2404.14619)(Open-source Efficient Language Models)이라는 모델을 공개하였다. 따라서 OpenELM이라는 모델에 대해 간략하게 소개하겠다. 
 
-<br>
 
 OpenELM의 대표적인 특징은 다음과 같다:
 
 - 트랜스포머의 각 레이어에서 파라미터 수를 변화시킴으로써 모델 전체의 파라미터를 효율적으로 분배하는 **‘layer-wise scaling’** 기술을 사용한다.
-  ![](/assets/img/apple/0.png)
+  - <img src="/assets/img/apple/1.png" style="zoom: 50%;" />
   - 원본 논문에서는 이 기술을 **'block-wise scaling'**이라고 소개하였다.
   
 - 입력에 가까운 레이어에서는 어텐션과 피드 포워드 네트워크의 파라미터 차원을 작게 하고, 출력에 가까워질수록 레이어의 차원을 넓게 할당한다.
-
-<br>
 
 
 OpenELM이 사전 학습에 사용한 아키텍처는 다음과 같다:
@@ -46,7 +45,7 @@ OpenELM이 사전 학습에 사용한 아키텍처는 다음과 같다:
 
 
 
-Flash Attention을 제외하면, OpenELM 모델은 LLaMA2-34B 이상의 모델 및 LLaMA3의 훈련 아키텍처와 동일하였다. Instruct tuning에는 rejection sampling 또는 DPO(Direct Preference Optimization)를 사용하였으며, PEFT 기법으로는 LoRA와 DoRA를 활용했지만, 두 기법 간의 성능 차이는 크지 않았다.
+Flash Attention을 제외하면, OpenELM 모델은 LLaMA2-34B 이상의 모델 및 LLaMA3의 훈련 아키텍처와 동일하였다. instruct tuning에는 rejection sampling 또는 DPO(Direct Preference Optimization)를 사용하였으며, PEFT 기법으로는 LoRA와 DoRA를 활용했지만, 두 기법 간의 성능 차이는 크지 않았다.
 
 벤치마크 상에서는 2배 더 적은 사전 학습 토큰으로 비슷한 크기의 OLMo-1.2B보다 OpenELM-1.1B 모델의 정확도가 2.36% 더 높았다. OpenELM의 주요 의의는 드라마틱한 성능 향상보다는 트랜스포머 레이어를 효율적으로 할당함으로써 더 적은 레이어로도 성능을 유지하거나 약간 향상시키는 것으로, 이는 온디바이스 모델의 파라미터 크기를 줄이기 위함으로 보인다.
 
@@ -82,8 +81,6 @@ Apple은 기본 모델을 훈련 후 두 가지 새로운 알고리즘을 개발
   - Apple은 인간이 주석을 단 데이터와 합성 데이터를 모두 통합한 하이브리드 데이터 전략을 적용하였다. 
 
 
-<br>
-
 위 두 알고리즘이 모델의 instruction-following quality를 크게 향상시켰다고 한다. 
 
 <br>
@@ -107,13 +104,13 @@ GQA는 MHA와 MQA의 중간 개념이다. MQA처럼 여러 개의 KV 헤드를 1
 
 아래 그림은 GQA가 MQA와 비슷한 속도를 유지하면서도 MHA와 비슷한 성능을 보여주는 뛰어난 방법임을 나타낸다. GQA에서는 그룹 크기를 `H`의 제곱근 정도로 설정하는 것이 일반적이다.
 
-<center><img src="/assets/img/apple/1.png" style="zoom: 50%;" /></center>
+<center><img src="/assets/img/apple/1.png" style="zoom: 75%;" /></center>
 
 또한, GQA는 pre-trained된 모델에 post-training으로 적용할 수 있다.
 
 아래 그래프는 pre-trained된 모델에 추가로 `𝛼`%만큼 GQA로 학습시켰을 때의 성능을 보여준다. `𝛼`가 높을수록 MHA와 성능이 비슷하며, 0일 때에도 성능 저하가 크지 않음을 알 수 있다.
 
-<center><img src="/assets/img/apple/2.png" style="zoom: 50%;" /></center>
+<center><img src="/assets/img/apple/2.png" style="zoom: 75%;" /></center>
 
 
 <br>
@@ -122,7 +119,7 @@ GQA는 MHA와 MQA의 중간 개념이다. MQA처럼 여러 개의 KV 헤드를 1
 
 온디바이스 추론에 있어서는 메모리, 전력 및 성능 요구 사항을 달성하기 위한 중요한 최적화 기법인 [**low-bit palletization**](https://apple.github.io/coremltools/docs-guides/source/opt-palettization-overview.html)을 사용한다. 
 
-**<이미지 첨부>**
+<center><img src="/assets/img/apple/3.png" style="zoom: 75%;" /></center>
 
 팔레트화는 가중치 클러스터링이라고도 하며, 모델의 `float` 가중치를 클러스터링하고 중심값의 [룩업 테이블(LUT)](https://en.wikipedia.org/wiki/Lookup_table)을 생성한 다음 원래 가중치 값을 LUT의 항목을 가리키는 인덱스와 함께 저장하여 모델을 압축한다.
 
@@ -134,7 +131,7 @@ Apple은 2비트 및 4비트 혼합 구성 전략(averaging 3.5 bits-per-weight)
 
 <br>
 
-### activation and embedding quantization
+## activation and embedding quantization
 
 활성화 및 임베딩에 양자화를 적용하였으며, 양자화 알고리즘은 [CoreML](https://apple.github.io/coremltools/docs-guides/source/opt-quantization-algos.html) 문서에 따르면 GPTQ 및 QAT로 추정된다. 
 
@@ -157,6 +154,7 @@ Apple의 모델은 M1 이상 칩이 탑재된 MacBook과 A17 Pro 칩이 탑재�
 <br>
 
 ### Leveraging model sparsity
+<center><img src="/assets/img/apple/4.png" style="zoom: 75%;" /></center>
 
 언어 모델은 어텐션 메커니즘와 피드 포워드 네트워크라는 두 가지 중요한 요소로 구성된 트랜스포머 블록에 의존한다. 연구에 따르면, LLM의 FFN은 희소성이 높아 활성화 후 값이 0이 되거나 거의 0에 가까워져 추론과 관련이 없게 되는 경우가 많다. 
 
@@ -169,6 +167,7 @@ Apple의 연구진은 추론 중에 희소하지 않은 요소만 찾아 로드�
 <br>
 
 ### Sliding windows
+<center><img src="/assets/img/apple/5.png" style="zoom: 75%;" /></center>
 
 Apple의 연구원들은 또한 모델 추론 중에 뉴런의 로딩과 언로딩을 관리하기 위해 "Sliding Window Technique"을 고안하였다. 이 방법은 메모리에 최근 입력 토큰의 하위 집합에서 필요한 것으로 예측된 가중치 행만 DRAM 캐시에 보관하고, 새 토큰이 들어오면 이전 토큰의 공간을 해제한다. 
 
@@ -179,6 +178,7 @@ Apple의 연구원들은 또한 모델 추론 중에 뉴런의 로딩과 언로�
 <br>
 
 ### Bundling Columns and Rows
+<center><img src="/assets/img/apple/6.png" style="zoom: 75%;" /></center>
 
 플래시 메모리에서 데이터 처리량을 늘리기 위해서는 더 큰 청크로 데이터를 읽는 것이 중요하며, 여기서는 청크 크기를 늘리는 데 사용한 전략에 대해 설명한다.
 
@@ -192,16 +192,18 @@ OPT 및 Falcon 모델의 경우, upward projection에서 𝑖번째 열과 downw
 
 플래시 메모리로 사용되는 1TB SSD가 있는 M1 Max에서 각 추론에 대해 플래시 메모리에서 RAM으로 모델을 naive하게 로드하면 토큰당 2.1초의 지연 시간이 발생하게 된다. 하지만 위에서 소개한 sparsity prediction, windowing, intelligent storage와 같은 새로운 기술을 구현함으로써 이 지연 시간을 약 200밀리초로 단축하였니다. GPU가 장착된 시스템에서 개선 효과는 더욱 두드러졌다.
 
+<center><img src="/assets/img/apple/7.png" style="zoom: 75%;" /></center>
+
 연구진들은 "우리는 사용 가능한 DRAM의 최대 2배 크기까지 LLM을 실행할 수 있는 능력을 입증하여 CPU에서는 기존 로딩 방식에 비해 4~5배, GPU에서는 20~25배의 추론 속도 가속화를 달성했다."라고 설명한다.
 
-<br><br>
+<br>
 
 # Model Adaptation
 
 [LoRA](https://arxiv.org/abs/2106.09685)는 파인튜닝 과정에서 효율성을 높이기 위해 개발된 기법이다. 
 특정 레이어의 파라미터를 저차원(low-rank)으로 분해하여 일부만 업데이트함으로써 메모리와 계산량을 크게 줄이며, 적은 수의 파라미터만 저장하고 업데이트할 수 있어 대규모 모델의 파인튜닝에서 효율적이다. 이는 다양한 응용 분야에 쉽게 적용할 수 있으며, 원래 모델의 성능을 유지하면서도 특정 작업에 맞게 조정할 수 있다.
 
-**<이미지 첨부>**
+<center><img src="/assets/img/apple/8.png" style="zoom: 75%;" /></center>
 
 Apple 온디바이스 모델은 rank 16의 LoRA 어댑터를 사용하여 추론 시 기본 모델과 결합한다. 각 어댑터는 100MB 미만으로 요약, 교정, 이메일 회신 등과 같은 다양한 작업에 여러 LoRA 어댑터를 저장하고 사용할 수 있다. 또한, 어댑터의 훈련을 용이하게 하기 위해 기본 모델이나 훈련 데이터가 업데이트될 때 어댑터를 빠르게 재훈련, 테스트, 배포할 수 있는 효율적인 인프라를 구축하였다. 
 
@@ -209,21 +211,16 @@ Apple 온디바이스 모델은 rank 16의 LoRA 어댑터를 사용하여 추론
 
 # Performance and Evaluation
 
-Human Satisfaction Score on Summarization Feature Benchmark
-
+<center><img src="/assets/img/apple/9.png" style="zoom: 75%;" /></center>
 제품별 요약 기능을 평가하기 위해 각 사용 사례에서 신중하게 샘플링한 750개의 응답 세트를 사용하여 인간 만족도 점수를 평가하였다. Apple 온디바이스 모델 + 어댑터를 phi-3-mini 기본 모델과 비교했을 때, Apple의 모델이 더 나은 요약을 생성하는 것을 확인할 수 있다. 그러나 공정한 비교는 Apple 온디바이스 모델 + 어댑터와 phi-3-mini + 어댑터 간의 비교였을 텐데, Apple은 그렇게 하지 않았다.
 
-
-Apple Foundation Model Human Evaluation
-
+<center><img src="/assets/img/apple/10.png" style="zoom: 75%;" /></center>
 온디바이스 및 서버 기반 모델의 일반적인 기능을 평가하였다. 일반 모델 기능을 테스트하기 위해 난이도에 따라 다양한 브레인스토밍, 분류, 비공개 질문 답변, 코딩, 추출, 수학적 추론, 공개 질문 답변, 재작성, 안전, 요약 및 쓰기 등의 포괄적인 평가 세트를 활용하였다. Apple의 서버 모델은 MoE(Mixture of Experts) 모델들과 비교했으며, 이는 서버 모델 또한 MoE로 구현되었을 가능성이 높다.
 
 Apple의 모델은 대부분의 비슷한 경쟁 모델보다 인간 평가자들에게 더 선호된다는 결과를 얻었다.
 
-
-
-Human Evaluation of Output Harmfulness
-
+<center><img src="/assets/img/apple/11.png" style="zoom: 75%;" /></center>
+<center><img src="/assets/img/apple/12.png" style="zoom: 75%;" /></center>
 "답변 유해성에 대한 인간의 평가"와 "안전 프롬프트에 대한 인간의 선호도 평가"는 Apple이 모델에서 생성하는 콘텐츠 종류에 대해 매우 우려하고 있음을 보여준다. 온디바이스 및 서버 모델 모두 적대적 프롬프트에 직면했을 때 오픈 소스 및 상용 모델보다 낮은 위반률을 달성하였다. 반면, 미스트랄-7B는 다른 경쟁사들과 달리 유해성 감소에 대해 명시적으로 훈련되지 않았기 때문에 그 결과가 좋지 않다.
 
 <br>
@@ -240,12 +237,12 @@ Human Evaluation of Output Harmfulness
 
 ### Reference
 
-- https://machinelearning.apple.com/research/introducing-apple-foundation-models
+- <https://machinelearning.apple.com/research/introducing-apple-foundation-models>
 - [OpenELM: An Efficient Language Model Family with Open Training and Inference Framework,Mehta et al. arXiv 2024](https://arxiv.org/abs/2404.14619)
 - [DeLighT: Deep and Light-weight Transformer, Mehta et al., arXiv 2021](https://arxiv.org/abs/2008.00623)
-- https://devocean.sk.com/blog/techBoardDetail.do?ID=165192
-- https://apple.github.io/coremltools/docs-guides/source/opt-quantization-algos.html
-- https://bdtechtalks.com/2023/12/27/apple-llm-flash-research/
+- <https://devocean.sk.com/blog/techBoardDetail.do?ID=165192>
+- <https://apple.github.io/coremltools/docs-guides/source/opt-quantization-algos.html>
+- <https://bdtechtalks.com/2023/12/27/apple-llm-flash-research/>
 - [LLM in a flash: Efficient Large Language Model Inference with Limited Memory, Alizadeh et al.,arXiv 2024](https://arxiv.org/abs/2312.11514)
 - [LoRA: Low-Rank Adaptation of Large Language Models, Hu et al., arXiv 2021](https://arxiv.org/abs/2106.09685)
 
