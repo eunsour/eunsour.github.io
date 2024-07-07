@@ -186,7 +186,7 @@ OPT 및 Falcon 모델의 경우, upward projection에서 𝑖번째 열과 downw
 
 ### Faster LLMs on low-memory devices
 
-플래시 메모리로 사용되는 1TB SSD가 있는 M1 Max에서 각 추론에 대해 플래시 메모리에서 RAM으로 모델을 naive하게 로드하면 토큰당 2.1초의 지연 시간이 발생하게 된다. 하지만 위에서 소개한 sparsity prediction, windowing, intelligent storage와 같은 새로운 기술을 구현함으로써 이 지연 시간을 약 200밀리초로 단축하였니다. GPU가 장착된 시스템에서 개선 효과는 더욱 두드러졌다.  
+플래시 메모리로 사용되는 1TB SSD가 있는 M1 Max에서 각 추론에 대해 플래시 메모리에서 RAM으로 모델을 naive하게 로드하면 토큰당 2.1초의 지연 시간이 발생하게 된다. 하지만 위에서 소개한 sparsity prediction, windowing, intelligent storage와 같은 새로운 기술을 구현함으로써 이 지연 시간을 약 200밀리초로 단축하였다. GPU가 장착된 시스템에서 개선 효과는 더욱 두드러졌다.  
 
 <center><img src="/assets/img/apple/7.png" style="zoom: 75%;" /></center>
 
@@ -197,6 +197,7 @@ OPT 및 Falcon 모델의 경우, upward projection에서 𝑖번째 열과 downw
 # Model Adaptation
 
 [LoRA](https://arxiv.org/abs/2106.09685)는 파인튜닝 과정에서 효율성을 높이기 위해 개발된 기법이다.  
+
 특정 레이어의 파라미터를 저차원(low-rank)으로 분해하여 일부만 업데이트함으로써 메모리와 계산량을 크게 줄이며, 적은 수의 파라미터만 저장하고 업데이트할 수 있어 대규모 모델의 파인튜닝에서 효율적이다. 이는 다양한 응용 분야에 쉽게 적용할 수 있으며, 원래 모델의 성능을 유지하면서도 특정 작업에 맞게 조정할 수 있다.  
 
 <center><img src="/assets/img/apple/8.png" style="zoom: 75%;" /></center>
@@ -208,12 +209,12 @@ Apple 온디바이스 모델은 rank 16의 LoRA 어댑터를 사용하여 추론
 # Performance and Evaluation
 
 <center><img src="/assets/img/apple/9.png" style="zoom: 75%;" /></center>
-제품별 요약 기능을 평가하기 위해 각 사용 사례에서 신중하게 샘플링한 750개의 응답 세트를 사용하여 인간 만족도 점수를 평가하였다. Apple 온디바이스 모델 + 어댑터를 phi-3-mini 기본 모델과 비교했을 때, Apple의 모델이 더 나은 요약을 생성하는 것을 확인할 수 있다. 그러나 공정한 비교는 Apple 온디바이스 모델 + 어댑터와 phi-3-mini + 어댑터 간의 비교였을 텐데, Apple은 그렇게 하지 않았다.  
+제품별 요약 기능을 평가하기 위해 각 사용 사례에서 신중하게 샘플링한 750개의 응답 세트를 사용하여 인간 만족도 점수를 평가하였다. Apple 온디바이스 모델 + 어댑터를 phi-3-mini 기본 모델과 비교했을 때, Apple의 모델이 더 나은 요약을 생성하는 것을 확인할 수 있다. 그러나 공정한 비교는 Apple 온디바이스 모델 + 어댑터와 phi-3-mini + 어댑터 간의 비교였을 텐데, Apple은 그렇게 하지 않았다.<br>
 
 <center><img src="/assets/img/apple/10.png" style="zoom: 75%;" /></center>
-온디바이스 및 서버 기반 모델의 일반적인 기능을 평가하였다. 일반 모델 기능을 테스트하기 위해 난이도에 따라 다양한 브레인스토밍, 분류, 비공개 질문 답변, 코딩, 추출, 수학적 추론, 공개 질문 답변, 재작성, 안전, 요약 및 쓰기 등의 포괄적인 평가 세트를 활용하였다. Apple의 서버 모델은 MoE(Mixture of Experts) 모델들과 비교했으며, 이는 서버 모델 또한 MoE로 구현되었을 가능성이 높다.
 
-Apple의 모델은 대부분의 비슷한 경쟁 모델보다 인간 평가자들에게 더 선호된다는 결과를 얻었다.  
+온디바이스 및 서버 기반 모델의 일반적인 기능을 평가하였다. 일반 모델 기능을 테스트하기 위해 난이도에 따라 다양한 브레인스토밍, 분류, 비공개 질문 답변, 코딩, 추출, 수학적 추론, 공개 질문 답변, 재작성, 안전, 요약 및 쓰기 등의 포괄적인 평가 세트를 활용하였다. Apple의 서버 모델은 MoE(Mixture of Experts) 모델들과 비교했으며, 이는 서버 모델 또한 MoE로 구현되었을 가능성이 높다.
+Apple의 모델은 대부분의 비슷한 경쟁 모델보다 인간 평가자들에게 더 선호된다는 결과를 얻었다.  <br>
 
 <center><img src="/assets/img/apple/11.png" style="zoom: 75%;" /></center>
 <center><img src="/assets/img/apple/12.png" style="zoom: 75%;" /></center>
