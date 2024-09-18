@@ -13,7 +13,6 @@ author:
   bio: Joy of Growth
   username: eunsour # general username
   github: eunsour # github username
-  twitter: # twitter username
   facebook: 95kes # facebook username
   email: me@eunsour.dev # email adress
   avatar: /assets/img/avatar-1.png # change with your own avatar
@@ -56,7 +55,7 @@ jekyll_compose:
     description:
 
 # Homepage limit posts
-number_of_posts: 7
+number_of_posts: 10
 
 # Build settings
 # theme: klise
