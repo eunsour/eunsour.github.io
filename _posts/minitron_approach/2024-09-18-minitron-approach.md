@@ -157,6 +157,8 @@ LLM 제공업체들은 다양한 크기(ex. Llama 3.1 8B, 70B, 405B)의 모델 �
 <br>
 <center><img src="/assets/img/minitron_approach/8.png" style="zoom: 50%;" /></center>
 
+<br>
+
 **깊이 가지치기 지표:**
 - LM 검증 손실 분석 결과, 모델의 시작과 끝 부분의 층들이 가장 중요한 것으로 나타났다.
 - 비연속적인 층 제거가 연속적 층 제거보다 LM 검증 손실 측면에서는 더 나은 결과를 보였다.
@@ -167,6 +169,8 @@ LLM 제공업체들은 다양한 크기(ex. Llama 3.1 8B, 70B, 405B)의 모델 �
 
 # Evaluation
 <center><img src="/assets/img/minitron_approach/9.png" style="zoom: 50%;" /></center>
+
+<br>
 
 ### 기본 모델 평가 결과
 - MN-Minitron-8B:
@@ -181,6 +185,8 @@ LLM 제공업체들은 다양한 크기(ex. Llama 3.1 8B, 70B, 405B)의 모델 �
 <br>
 
 <center><img src="/assets/img/minitron_approach/10.png" style="zoom: 50%;" /></center>
+
+<br>
 
 ### 지시 모델 평가 결과
 - Llama-3.1-Minitron 4B 변형들:
