@@ -159,7 +159,7 @@ LLM 제공업체들은 다양한 크기(ex. Llama 3.1 8B, 70B, 405B)의 모델 �
 
   <br>
 
-4. **깊이 가지치기 지표:**
+- **깊이 가지치기 지표:**
   <center><img src="/assets/img/minitron_approach/7.png" style="zoom: 50%;" /></center>
   <br>
   <center><img src="/assets/img/minitron_approach/8.png" style="zoom: 50%;" /></center>
