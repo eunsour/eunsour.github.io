@@ -18,8 +18,10 @@ LLM 제공업체들은 다양한 크기(ex. Llama 3.1 8B, 70B, 405B)의 모델 �
 
 본 연구에서는 Minitron 압축 전략을 Llama 3.1 8B와 Mistral NeMo 12B 모델에 적용하여 각각 4B와 8B 매개변수로 압축하였다. 원본 학습 데이터에 접근할 수 없어, '**<u>교사 보정(teacher correction)</u>**' 단계를 도입하여 교사 모델(teacher model)을 자체 데이터셋으로 파인 튜닝하였다.
 
+<br>
+
 <figure align="center">
-<center><img src="/assets/img/minitron_approach/0.png" style="zoom: 50%;" /></center>
+<center><img src="/assets/img/minitron_approach/0.png" style="zoom: 40%;" /></center>
 <figcaption>모델 가지치기 및 증류 방식에 대한 개략적인 개요</figcaption>
 </figure>
 
@@ -37,6 +39,7 @@ LLM 제공업체들은 다양한 크기(ex. Llama 3.1 8B, 70B, 405B)의 모델 �
 2. **가지치기**: 모델의 크기를 축
 3. **지식 증류**: 가지치기로 인한 정확도 손실을 복구
 
+<br>
 
 <figure align="center">
 <center><img src="/assets/img/minitron_approach/1.png" style="zoom: 50%;" /></center>
@@ -74,7 +77,7 @@ LLM 제공업체들은 다양한 크기(ex. Llama 3.1 8B, 70B, 405B)의 모델 �
 
 # 3. Training Details
 
-## Pre-training
+## 3-1. Pre-training
 - Llama 3.1 8B와 Mistral NeMo 12B는 각각 독점 데이터셋으로 사전 학습되었다.
 - Llama 3.1 8B 모델은 15T 토큰으로 학습되었다.
 - 본 연구에서는 Hugging Face에서 공개된 Base 모델을 사용한다.
@@ -82,7 +85,7 @@ LLM 제공업체들은 다양한 크기(ex. Llama 3.1 8B, 70B, 405B)의 모델 �
 
 <br>
 
-## Pruning
+## 3-2. Pruning
 - Minitron 논문의 최선의 방법을 기반으로 한 간소화된 가지치기 레시피를 사용한다.
 - **너비 가지치기**: l2-norm과 평균을 집계 함수로 사용하며, 단일 샷 가지치기를 수행한다.
 - **깊이 가지치기**: Winogrande에서 정확도 하락이 가장 적은 연속적인 층을 제거한다.
@@ -93,7 +96,7 @@ LLM 제공업체들은 다양한 크기(ex. Llama 3.1 8B, 70B, 405B)의 모델 �
 <br>
 
 
-## Distillation
+## 3-3. Distillation
 **교사 보정(Teacher Correction):**
 - 교사 모델을 약 127B 토큰을 사용하여 데이터셋에 파인 튜닝한다.
 - 이는 원본 학습 데이터셋과 증류 데이터셋 간의 토큰 분포 차이를 보완하기 위함이다.
@@ -105,7 +108,7 @@ LLM 제공업체들은 다양한 크기(ex. Llama 3.1 8B, 70B, 405B)의 모델 �
 
 <br>
 
-## Instruction Tuning
+## 3-4. Instruction Tuning
 - Llama-3.1-Minitron 4B 모델에 대해 NeMo-Aligner를 사용하여 supervised fine-tuning(SFT)을 수행한다.
 - instruction-following 및 역할 수행(IFEval, MT-Bench), RAG QA(ChatRAG-Bench), function-calling 기능(BFCL)에 대해 평가한다.
 
@@ -114,7 +117,9 @@ LLM 제공업체들은 다양한 크기(ex. Llama 3.1 8B, 70B, 405B)의 모델 �
 # 4. Analysis
 본 연구에서는 새로운 압축 모델들의 특성을 더 잘 이해하기 위해 다양한 실험을 수행했다. 주요 결과는 다음과 같다:
 
-1. **너비 vs 깊이 가지치기:**
+<br>
+
+- **너비 vs 깊이 가지치기:**
   <br>
   <center><img src="/assets/img/minitron_approach/4.png" style="zoom: 50%;" /></center>
 
@@ -125,14 +130,14 @@ LLM 제공업체들은 다양한 크기(ex. Llama 3.1 8B, 70B, 405B)의 모델 �
 
   <br>
 
-2. **가지치기와 증류의 효과:**
+- **가지치기와 증류의 효과:**
   - 무작위 가중치 초기화 및 증류
   - 무작위 가지치기 및 증류
   - 제안된 가지치기 + 일반적인 LM 손실 학습
   - 제안된 가지치기 + 증류 기반 학습
 
-  <center><img src="/assets/img/minitron_approach/5.png" style="zoom: 50%;" /></center>
   <br>
+  <center><img src="/assets/img/minitron_approach/5.png" style="zoom: 50%;" /></center>
 
   결과: 
   - 가지치기는 무작위 초기화보다 훨씬 더 나은 시작점을 제공한다.
@@ -140,11 +145,12 @@ LLM 제공업체들은 다양한 크기(ex. Llama 3.1 8B, 70B, 405B)의 모델 �
 
   <br>
 
-3. **교사 보정:**
+- **교사 보정:**
   - 보정된 교사를 가지치기하고 증류
   - 원래 교사를 가지치기하고 보정된 교사로부터 증류
-  <center><img src="/assets/img/minitron_approach/6.png" style="zoom: 50%;" /></center>
+  
   <br>
+  <center><img src="/assets/img/minitron_approach/6.png" style="zoom: 50%;" /></center>
 
   결과:
   - 교사 보정은 가지치기의 최적성에 영향을 미치지 않는다.
@@ -155,8 +161,8 @@ LLM 제공업체들은 다양한 크기(ex. Llama 3.1 8B, 70B, 405B)의 모델 �
 
 4. **깊이 가지치기 지표:**
   <center><img src="/assets/img/minitron_approach/7.png" style="zoom: 50%;" /></center>
-  <center><img src="/assets/img/minitron_approach/8.png" style="zoom: 50%;" /></center>
   <br>
+  <center><img src="/assets/img/minitron_approach/8.png" style="zoom: 50%;" /></center>
 
   결과: 
   - LM 검증 손실 분석 결과, 모델의 시작과 끝 부분의 층들이 가장 중요한 것으로 나타났다.
@@ -199,7 +205,7 @@ LLM 제공업체들은 다양한 크기(ex. Llama 3.1 8B, 70B, 405B)의 모델 �
 - **일반적인 통찰:**
   - 교사 보정의 중요성:
     - 새로운 데이터셋에서 증류 효과를 최적화하기 위해 중요함
-    - 증류에 사용된 데이터셋으로 교사 모델을 파인 튜닝하면 LM 검증 손실이 6% 이상 감소
+    - **증류에 사용된 데이터셋으로 교사 모델을 파인 튜닝하면 LM 검증 손실이 6% 이상 감소**
     - 가지치기의 최적성에는 영향을 미치지 않으며, 증류와 동시에 수행 가능
   - 효율적인 학습:
     - 380B 토큰만으로 최첨단 정확도 달성 (Minitron 논문의 결과와 일치)
@@ -207,14 +213,14 @@ LLM 제공업체들은 다양한 크기(ex. Llama 3.1 8B, 70B, 405B)의 모델 �
     - 주의 헤드를 유지하고 다른 차원(MLP 중간 차원, 임베딩 채널)을 가지치기하여 더 높은 정확도 달성
 - **Mistral NeMo 12B에서 MN-Minitron-8B로 압축:**
   - 압축 모델이 일부 벤치마크에서 교사 모델 능가
-    - GSM8k: 55.7% → 58.5%
-    - HumanEval: 23.8% → 36.2%
+    - GSM8k: `55.7%` → `58.5%`
+    - HumanEval: `23.8%` → `36.2%`
   - 이러한 개선은 데이터셋의 영향을 받았을 가능성 있음
   - 재학습은 증류 손실만을 사용하여 수행됨
 - **Llama 3.1 8B에서 Llama-3.1-Minitron 4B로 압축:**
   - 정확도 측면:
-    - 너비 가지치기: MMLU 60.5%, GSM8K 41.24%
-    - 깊이 가지치기: MMLU 58.7%, GSM8K 16.8%
+    - 너비 가지치기: `MMLU 60.5%`, `GSM8K 41.24%`
+    - 깊이 가지치기: `MMLU 58.7%`, `GSM8K 16.8%`
   - 속도 향상:
     - 깊이 가지치기: 2.7배 속도 향상
     - 너비 가지치기: 1.7배 속도 향상
@@ -222,10 +228,10 @@ LLM 제공업체들은 다양한 크기(ex. Llama 3.1 8B, 70B, 405B)의 모델 �
 
 
 ### 요약:
-- 너비 가지치기: 정확도 측면에서 우수
-- 깊이 가지치기: 속도 향상 측면에서 우수
-- 교사 보정과 증류 조합: 모델 성능 최적화에 중요
-- 가지치기 전략: 모델 구조와 목표에 따라 다르게 적용 필요
+- **너비 가지치기**: 정확도 측면에서 우수
+- **깊이 가지치기**: 속도 향상 측면에서 우수
+- **교사 보정과 증류 조합**: 모델 성능 최적화에 중요
+- **가지치기 전략**: 모델 구조와 목표에 따라 다르게 적용 필요
 
 <br>
 
