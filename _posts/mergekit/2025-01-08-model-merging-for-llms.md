@@ -11,13 +11,13 @@ usemathjax: true
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 
 ## 목차 
-[1.Linear](#Linear)  
-[2.SLERP](#SLERP)  
-[3.Task Arithmatic](#Task-Arithmatic)  
-[4.TIES Merging](#TIES-Merging)  
-[5.Dare](#Dare)  
-[6.Passthrough](#Passthrough)  
-[7. 결론](#결론)
+[1.Linear](#1-linear)  
+[2.SLERP](#2-SLERP)  
+[3.Task Arithmatic](#3-task-arithmetic)  
+[4.TIES Merging](#4-TIES-Merging)  
+[5.Dare](#5-Dare)  
+[6.Passthrough](#6-Passthrough)  
+[7. 결론](#7-결론)
 
 <br>
 
@@ -34,7 +34,7 @@ usemathjax: true
 
 1. **가중치 곱셈:** 각 모델의 파라미터 값에 해당 모델의 가중치를 곱한다.
 2. **합산:** 모든 모델의 가중치가 곱해진 파라미터 값을 합산한다.
-3. **정규화:** 합산된 파라미터 값을 가중치 총합으로 나눕니다 (필요에 따라). 이 과정을 통해 가중 평균을 계산한다.
+3. **정규화:** 합산된 파라미터 값을 가중치 총합으로 나눈다. 이 과정을 통해 가중 평균을 계산한다.
 
 <br>
 
@@ -45,7 +45,7 @@ if self.normalize:
     res = res / weights.sum(dim=0)  # 가중치 총합으로 정규화
 ```
 
-위 코드는 mergekit 라이브러리에서 Linear 방법론을 구현한 예시이다. tensors는 병합할 모델의 파라미터 값들을 나타내고, weights는 각 모델에 부여된 가중치를 나타낸다.
+위 코드는 [mergekit](https://github.com/arcee-ai/mergekit) 라이브러리에서 Linear 방법론을 구현한 예시이다. tensors는 병합할 모델의 파라미터 값들을 나타내고, weights는 각 모델에 부여된 가중치를 나타낸다.
 
 
 <br>
@@ -171,30 +171,19 @@ SLERP는 모델 병합에서 벡터 크기 감소 문제를 해결하고 방향 
 <figcaption>그림2. 작업 벡터와 산술 연산에 대한 개념도</figcaption>
 </figure>
 
+
 1. **작업 벡터 생성 (Task vectors):**
-
-   - 사전 학습된 모델(\\(\theta_{pre}\\))과 특정 작업에 대해 파인튜닝된 모델(\\(\theta_{ft}\\))의 가중치 차이를 계산하여 작업 벡터(\\(\tau\\))를 생성한다.
-
+  - 사전 학습된 모델(\\(\theta_{pre}\\))과 특정 작업에 대해 파인튜닝된 모델(\\(\theta_{ft}\\))의 가중치 차이를 계산하여 작업 벡터(\\(\tau\\))를 생성한다.
 2. **작업 벡터를 활용한 모델 편집:**
-
-   - **(b) 망각 (Forgetting via negation):**
-
+  - **(b) 망각 (Forgetting via negation):**
       특정 작업에 대한 모델의 성능을 감소시키기 위해 해당 작업의 작업 벡터(\\(\tau\\))에 -1을 곱하여 반대 방향으로 적용한다.  (\\(\tau_{new} = -\tau\\))
-
-     - 예를 들어, 언어 모델이 유해한 콘텐츠를 생성하지 않도록 만드는 경우에 사용된다.
-
-   - **(c) 학습 (Learning via addition):**
-
+    - 예를 들어, 언어 모델이 유해한 콘텐츠를 생성하지 않도록 만드는 경우에 사용된다.
+  - **(c) 학습 (Learning via addition):**
       여러 작업에 대한 성능을 동시에 향상시키기 위해 해당 작업들의 작업 벡터들을 더한다. (\\(\tau_{new} = \tau_A + \tau_B\\))
-
-     - 예를 들어, 여러 작업을 동시에 수행하는 멀티태스크 모델을 만들 때 사용된다.
-
-   - **(d) 작업 유추 (Task analogies):**
-
+    - 예를 들어, 여러 작업을 동시에 수행하는 멀티태스크 모델을 만들 때 사용된다.
+  - **(d) 작업 유추 (Task analogies):**
       기존 작업 벡터들의 관계를 활용하여 새로운 작업을 학습하거나 개선한다. 즉, "A가 B에 대한 것과 같다면, C는 D에 대한 것이다"와 같은 관계를 이용하여 D에 대한 데이터가 없어도 모델의 성능을 개선한다. (\\(\tau_{new} = \tau_C + (\tau_B - \tau_A)\\))
-
-     - 예를 들어, 도메인 일반화 능력을 향상시키는 데 사용될 수 있다.
-
+    - 예를 들어, 도메인 일반화 능력을 향상시키는 데 사용될 수 있다.
 3. **병합된 작업 벡터 적용:** 병합된 작업 벡터를 기본 모델에 추가하여 원하는 모델 동작을 얻는다.
 
 <br>
@@ -362,7 +351,7 @@ Passthrough (패스스루), 혹은 Frankenmerge (프랑켄머지)라고 불리�
 
 <br>
 
-**핵심 개념:**
+**핵심 개념:**  
 Passthrough 방법론의 핵심은 다음과 같다:
 - **레이어 연결:** 서로 다른 모델의 특정 레이어 범위를 선택하여 연결한다.
 - **이종 모델 결합:** 서로 다른 구조나 특성을 가진 모델들을 결합하여 새로운 모델을 생성한다.
@@ -430,8 +419,10 @@ LLM 병합 기술은 기존 모델들의 강점을 결합하여 더 똑똑하고
 <br>
 
 # Reference
-- https://github.com/arcee-ai/mergekit
-- https://huggingface.co/blog/mlabonne/merge-models
-- https://developer.nvidia.com/blog/an-introduction-to-model-merging-for-llms
-- https://blog.sionic.ai/llm-merging
-- https://ncsoft.github.io/ncresearch/97e37d3af13fab6d2c69618087e7d3afb2ff566c
+- <https://github.com/arcee-ai/mergekit>
+- <https://huggingface.co/blog/mlabonne/merge-models>
+- <https://developer.nvidia.com/blog/an-introduction-to-model-merging-for-llms>
+- <https://blog.sionic.ai/llm-merging>
+- <https://ncsoft.github.io/ncresearch/97e37d3af13fab6d2c69618087e7d3afb2ff566c>
+
+<br>

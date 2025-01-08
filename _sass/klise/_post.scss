@@ -87,6 +87,14 @@
     }
   }
 
+  ul {
+    padding-left: 20px; /* ul 리스트 들여쓰기 조절 */
+  }
+
+  ol {
+    padding-left: 20px; /* ol 리스트 들여쓰기 조절 */
+  }
+
   a {
     color: $text-link-blue;
     text-decoration: none;
