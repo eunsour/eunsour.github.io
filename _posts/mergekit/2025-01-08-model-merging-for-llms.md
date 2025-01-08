@@ -420,8 +420,9 @@ LLM 병합 기술은 기존 모델들의 강점을 결합하여 더 똑똑하고
 # Reference
 - <https://github.com/arcee-ai/mergekit>
 - <https://huggingface.co/blog/mlabonne/merge-models>
-- <https://developer.nvidia.com/blog/an-introduction-to-model-merging-for-llms>
 - <https://blog.sionic.ai/llm-merging>
 - <https://ncsoft.github.io/ncresearch/97e37d3af13fab6d2c69618087e7d3afb2ff566c>
+- <https://developer.nvidia.com/blog/an-introduction-to-model-merging-for-llms>
+
 
 <br>
