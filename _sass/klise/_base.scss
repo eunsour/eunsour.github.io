@@ -74,6 +74,8 @@ ol,
 dl,
 figure,
 %vertical-rhythm {
+  margin-top: $spacing-full - 20;
+  margin-bottom: $spacing-full - 20;
   margin-top: $spacing-full - 25;
   margin-bottom: $spacing-full - 25;
 }
