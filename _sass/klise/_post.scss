@@ -89,43 +89,49 @@
     }
   }
 
-  ol {
-    padding-left: 0px;
+  & > ol {
+    padding-left: 0;
     list-style: none;
     counter-reset: item;
     
-    > li {
+    & > li {
+      display: block;
       counter-increment: item;
       
       &::before {
-        content: counter(item) ".";
+        content: counter(item) ". ";
         font-weight: 700;
         margin-right: 5px;
       }
       
       // 중첩된 ul (대시 리스트)
-      > ul {
+      & > ul {
         margin-left: 20px;
-        list-style: none;
+        margin-top: 5px;
+        margin-bottom: 5px;
         
-        li::before {
-          content: "-";
-          font-weight: 700;
-          margin-right: 5px;
+        & > li {
+          &::before {
+            content: "- " !important; // 다른 스타일을 확실히 덮어쓰기 위해
+            font-weight: 700;
+            margin-right: 5px;
+          }
         }
       }
     }
   }
 
   // 최상위 ul (대시 리스트)
-  ul {
-    padding-left: 0px;
+  & > ul {
+    padding-left: 0;
     list-style: none;
     
-    li::before {
-      content: "-";
-      font-weight: 700;
-      margin-right: 5px;
+    & > li {
+      &::before {
+        content: "- " !important; // 다른 스타일을 확실히 덮어쓰기 위해
+        font-weight: 700;
+        margin-right: 5px;
+      }
     }
   }
 
