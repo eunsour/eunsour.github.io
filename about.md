@@ -9,4 +9,4 @@ comments: false
 **may u needs ✨**
 
 - <{{ site.author.email }}>
-- <github.com/{{ site.author.github }}>
+- <https://github.com/{{ site.author.github }}>

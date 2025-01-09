@@ -18,7 +18,7 @@ author:
   avatar: /assets/img/avatar-1.png # change with your own avatar
 
 # URL settings
-url: "eunsour.github.io" #
+url: "https://blog.eunsour.dev" #
 baseurl: ''
 permalink: /:title/
 google_analytics: G-L6V57QE1V4

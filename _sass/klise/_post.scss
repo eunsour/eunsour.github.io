@@ -69,8 +69,6 @@
 
 // Post content
 .page-content {
-  padding-top: 8px;
-  margin: 0px; /* 위아래 margin 제거 */
   padding-top: 5px;  /* 원하는 값으로 조절 */
   padding-bottom: 5px; /* 원하는 값으로 조절 */
 
@@ -90,22 +88,12 @@
     }
   }
 
-  ul {
-    padding-left: 20px; /* ul 리스트 들여쓰기 조절 */
+  ul, ol { /* ul, ol 태그에 모두 적용*/
     padding-left: 0px; /* ul 리스트 들여쓰기 제거 또는 원하는 값으로 조절 */
     list-style: none;
     li::before {
-       content: "";
+      content: "";
     }
-  }
-
-  ol {
-    padding-left: 20px; /* ol 리스트 들여쓰기 조절 */
-    padding-left: 0px; /* ol 리스트 들여쓰기 제거 또는 원하는 값으로 조절 */
-    list-style: none;
-      li::before {
-          content: "";
-     }
   }
 
   a {
