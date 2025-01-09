@@ -87,13 +87,21 @@
       font-size: $small-font-size;
     }
   }
-
-  ul, ol { /* ul, ol 태그에 모두 적용*/
+  
+  ul {
     padding-left: 0px; /* ul 리스트 들여쓰기 제거 또는 원하는 값으로 조절 */
     list-style: none;
     li::before {
-      content: "";
+       content: "";
     }
+  }
+
+  ol {
+    padding-left: 0px; /* ol 리스트 들여쓰기 제거 또는 원하는 값으로 조절 */
+    list-style: none;
+      li::before {
+          content: "";
+     }
   }
 
   a {
