@@ -157,7 +157,8 @@ ul {
 
 ol {
   list-style: none;
-  li {
+}
+ol > li {
     position: relative;
     counter-increment: li;
     &::before {
@@ -172,7 +173,6 @@ ol {
       font-size: $small-font-size;
     }
   }
-}
 
 ul,
 ol {
