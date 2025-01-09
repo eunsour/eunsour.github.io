@@ -69,11 +69,11 @@
 
 // Post content
 .page-content {
-  padding-top: 5px;  /* 원하는 값으로 조절 */
-  padding-bottom: 5px; /* 원하는 값으로 조절 */
-
+  padding-top: 5px;
+  padding-bottom: 5px;
+    
   iframe {
-    text-align: center;
+   text-align: center;
   }
 
   figure {
@@ -87,34 +87,28 @@
       font-size: $small-font-size;
     }
   }
-  
-  ul {
-    padding-left: 0px; /* ul 리스트 들여쓰기 제거 또는 원하는 값으로 조절 */
-    list-style: none;
-    li::before {
-       content: "";
-    }
-  }
 
-  ol {
-    padding-left: 0px; /* ol 리스트 들여쓰기 제거 또는 원하는 값으로 조절 */
+   ul {
+    padding-left: 0px;
     list-style: none;
       li::before {
-          content: "";
-     }
-  }
+          content: "-"; /* ul 태그 내부 li에 대시 적용 */
+      }
+   }
+
+    /* 기존 ol 스타일 제거 */
 
   a {
     color: $text-link-blue;
     text-decoration: none;
-    &[target="_blank"]::after {
+      &[target="_blank"]::after {
       content: " \2197";
       font-size: $small-font-size;
       line-height: 0;
       position: relative;
       bottom: 5px;
       vertical-align: baseline;
-    }
+      }
 
     &:hover {
       color: $text-link-blue-active;
@@ -122,30 +116,30 @@
 
     &:focus {
       color: $text-link-blue;
+      }
     }
-  }
 
   > p {
-    margin: 0;
-    padding-top: $spacing-full - 15;
-    padding-bottom: $spacing-full - 15;
+      margin: 0;
+      padding-top: $spacing-full - 15;
+      padding-bottom: $spacing-full - 15;
   }
 
   ul.task-list {
-    list-style: none; 
-    margin: 0;
+      list-style: none;
+      margin: 0;
 
-    li::before {
+      li::before {
       content: "";
-    }
+      }
 
     li input[type="checkbox"] {
-      margin-right: 10px;
+        margin-right: 10px;
+        }
     }
-  }
 
   dl dt {
-    font-weight: $bold-weight;
+      font-weight: $bold-weight;
   }
 
   h1,
@@ -154,30 +148,30 @@
   h4,
   h5,
   h6 {
-    color: $black;
-    font-weight: $bold-weight;
-    margin-top: $spacing-full;
-    margin-bottom: 0;
+      color: $black;
+      font-weight: $bold-weight;
+      margin-top: $spacing-full;
+      margin-bottom: 0;
 
-    &:hover {
-      .anchor-head {
+      &:hover {
+        .anchor-head {
         color: $text-link-blue;
         opacity: 1;
+        }
       }
-    }
 
-    .anchor-head {
-      position: relative;
-      opacity: 0;
-      outline: none;
+      .anchor-head {
+        position: relative;
+        opacity: 0;
+        outline: none;
 
-      &::before {
-        content: "#";
-        position: absolute;
-        right: -3px;
-        width: 1em;
-        font-weight: $bold-weight;
-      }
+        &::before {
+          content: "#";
+          position: absolute;
+          right: -3px;
+          width: 1em;
+          font-weight: $bold-weight;
+        }
     }
   }
 

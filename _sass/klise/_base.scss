@@ -164,7 +164,7 @@ ol {
     &::before {
       content: counter(li) ".";
       display: inline-block;
-      width: 1.6em; 
+      width: 1.6em;
       margin-right: 0;
       margin-left: -1.6em;
       text-align: left;
