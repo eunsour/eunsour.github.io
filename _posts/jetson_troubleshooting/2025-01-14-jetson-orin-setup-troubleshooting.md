@@ -10,24 +10,24 @@ usemathjax: true
 ---
 
 
-지금 다니고 있는 회사에서 Embodied AI 프로젝트를 위해 Jetson AGX Orin 64GB 장비를 도입하게 되었다. 기존에는 주로 RTX4090, A100 등 Ada Lovelace 및 Ampere 아키텍처 기반의 워크스테이션 환경에서 다양한 AI 태스크를 수행해왔다. 하지만 이번에는 Tegra 프로세서 기반의 Jetson 환경에서 작업을 진행하게 되면서 여러 시행착오와 어려움을 겪었다. 이 글에서는 그 과정과 해결책을 공유하고자 한다.
+지금 다니고 있는 회사에서 Embodied AI 프로젝트를 위해 [Jetson AGX Orin 64GB](https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/) 장비를 도입하게 되었다. 기존에는 주로 RTX4090, A100 등 Ada Lovelace 및 Ampere 아키텍처 기반의 워크스테이션 환경에서 다양한 AI 태스크를 수행해왔다. 하지만 이번에는 Tegra 프로세서 기반의 Jetson 환경에서 작업을 진행하게 되면서 여러 시행착오와 어려움을 겪었다. 이 글에서는 그 과정과 해결책을 공유하고자 한다.
 
 <br>
 
 # 1. 초기 환경 설정 실패: 아키텍처 호환성 문제
 
-처음에는 기존 워크스테이션 환경에서 사용하던 vLLM, TensorRT-LLM, MLC-LLM 등의 추론 라이브러리를 Jetson 환경에서 그대로 사용하려 하였다. 그래서 가상환경을 만들고 `pip install` 명령어를 통해 설치를 시도했지만, 결과는 실패였다.
+처음에는 기존 워크스테이션 환경에서 사용하던 vLLM, TensorRT-LLM, MLC-LLM 등의 추론 라이브러리를 Jetson 환경에서 그대로 사용하려 하였다. 그래서 가상환경을 만들고 `pip install` 명령어를 통해 설치를 시도했지만, 결과는 실패였다.  
 
 
 <figure align="center">
-<center><img src="/assets/img/jetson-orin-setup-troubleshooting/0.png"/></center>
+<center><img src="/assets/img/jetson-orin-setup-troubleshooting/0.png" style="zoom: 140%;"/></center>
 <figcaption>jetson platform service diagrams</figcaption>
 </figure>
 
 <br>
 
 **문제 원인:**  
-기존 워크스테이션 환경에서는 Ubuntu x86_64 아키텍처를 사용했지만, Jetson은 NVIDIA Tegra 프로세서를 기반으로 하는 **Jetson Linux (L4T)** 운영체제를 사용한다. 이는 ARM 아키텍처 (aarch64) 기반이며, vLLM, TensorRT-LLM, MLC-LLM 등의 라이브러리는 Ubuntu의 x86_64 아키텍처에 맞춰 컴파일되고 특정 라이브러리 및 패키지에 의존하기 때문에 Jetson 환경에서 호환성 문제가 발생한다. 따라서, 해당 라이브러리들이 Jetson 환경에 맞게 재컴파일되지 않았거나 필요한 의존성이 충족되지 않으면 설치 및 실행에 실패하게 된다.
+기존 워크스테이션 환경에서는 Ubuntu x86_64 아키텍처를 사용했지만, Jetson은 **NVIDIA Tegra 프로세서**를 기반으로 하는 **Jetson Linux (L4T)** 운영체제를 사용한다. 이는 ARM 아키텍처 (aarch64) 기반이며, vLLM, TensorRT-LLM, MLC-LLM 등의 라이브러리는 Ubuntu의 x86_64 아키텍처에 맞춰 컴파일되고 특정 라이브러리 및 패키지에 의존하기 때문에 Jetson 환경에서 호환성 문제가 발생한다. 따라서, 해당 라이브러리들이 Jetson 환경에 맞게 재컴파일되지 않았거나 필요한 의존성이 충족되지 않으면 설치 및 실행에 실패하게 된다.
 
 <br>
 
@@ -46,12 +46,12 @@ usemathjax: true
 
 
 <figure align="center">
-<center><img src="/assets/img/jetson-orin-setup-troubleshooting/1.png"/></center>
+<center><img src="/assets/img/jetson-orin-setup-troubleshooting/1.png" style="zoom: 140%;"/></center>
 <figcaption>jetson-containers가 지원하는 패키지 목록</figcaption>
 </figure>
 
 
-하지만, 우리가 사용하려는 라이브러리(ex. vLLM, TensorRT-LLM 등)를 설치하기 위해서는 특정 Jetpack 버전 (= L4T 버전) 이상이 필요하였다. 따라서, 우리는 다시 한번 환경을 점검하기로 하였다. 즉, Ubuntu 환경, Jetpack 버전, CUDA 버전, 그리고 torch 버전을 확인하고, jetson-container를 설치하여 필요한 라이브러리를 실행하기로 하였다.
+하지만, 우리가 사용하려는 라이브러리(ex. vLLM, TensorRT-LLM 등)를 설치하기 위해서는 특정 Jetpack 버전 (= L4T 버전) 이상이 필요하였다. **따라서, 우리는 다시 한번 환경을 점검하기로 하였다.** 즉, Ubuntu 환경, Jetpack 버전, CUDA 버전, 그리고 torch 버전을 확인하고, jetson-container를 설치하여 필요한 라이브러리를 실행하기로 하였다.
 
 <br>
 
@@ -84,7 +84,7 @@ $ cat /etc/nv_tegra_release
 
 <br>
 
-<center><img src="/assets/img/jetson-orin-setup-troubleshooting/2.png"/></center>
+<center><img src="/assets/img/jetson-orin-setup-troubleshooting/2.png" style="zoom: 140%;"/></center>
 
 <br>
 
@@ -105,10 +105,10 @@ Jetson 환경 업그레이드 과정은 Jetpack 버전과 Ubuntu 버전에 따�
 
 **업그레이드 방법:**
 
-1. Ubuntu 버전과 Jetpack 버전 모두 안 맞는 경우 (본 문서에서 채택):
+1. **Ubuntu 버전과 Jetpack 버전 모두 안 맞는 경우 (본 문서에서 채택):**
    - Ubuntu 및 Jetpack을 모두 업그레이드한다.
    - Ubuntu 22.04 버전의 호스트 PC와 Jetson을 연결하여 호스트 PC에 SDK Manager를 다운로드하고 업그레이드해야 한다.
-2. Ubuntu 버전은 맞으나 Jetpack 버전이 안 맞는 경우:
+2. **Ubuntu 버전은 맞으나 Jetpack 버전이 안 맞는 경우:**
    - 하드웨어 호환성 등의 이유로 Jetson 모듈을 사용하는 캐리어 보드 제조사(공급업체)에서 제공하는 커스터마이징된 BSP(Board Support Package) 파일을 받아야 한다. 
    - 이후 CUDA 업그레이드를 진행한다.
 
@@ -116,7 +116,7 @@ Jetson 환경 업그레이드 과정은 Jetpack 버전과 Ubuntu 버전에 따�
 
 ## 3.1. 방법 1: SDK Manager를 이용한 업그레이드 (Ubuntu 및 Jetpack 모두 업그레이드)
 
-Jetson 환경을 업그레이드하는 방법은 여러 가지가 있지만, 여러 시행착오를 겪어본 결과 Ubuntu 22.04 환경의 호스트 PC를 사용하여 [**NVIDIA SDK Manager**](https://developer.nvidia.com/sdk-manager)를 통해 Jetson 장치를 업그레이드하는 것이 가장 쉽고 안정적인 방법이다. 주의할 점은 Jetson 장치와 호스트 PC를 연결할 때는 반드시 데이터 전송이 가능한 micro USB 5핀 케이블을 사용해야 한다.
+Jetson 환경을 업그레이드하는 방법은 여러 가지가 있지만, 여러 시행착오를 겪어본 결과 Ubuntu 22.04 환경의 호스트 PC를 사용하여 [NVIDIA SDK Manager](https://developer.nvidia.com/sdk-manager)를 통해 Jetson 장치를 업그레이드하는 것이 가장 쉽고 안정적인 방법이다. 주의할 점은 Jetson 장치와 호스트 PC를 연결할 때는 반드시 데이터 전송이 가능한 micro USB 5핀 케이블을 사용해야 한다.
 
 SDK Manager를 이용한 설치 과정에 대한 자세한 내용은 NVIDIA 공식 문서[https://docs.nvidia.com/sdk-manager/install-with-sdkm-jetson/index.html](https://docs.nvidia.com/sdk-manager/install-with-sdkm-jetson/index.html)를 참조하면 된다.
 
@@ -124,7 +124,7 @@ SDK Manager를 이용한 설치 과정에 대한 자세한 내용은 NVIDIA 공�
 
 ## 3.2. 방법 2: BSP(Board Support Package)를 이용한 업그레이드 (Jetpack만 업그레이드)
 
-Jetson 모듈을 탑재한 캐리어 보드 제조사(공급업체)에서 커스터마이징된 BSP 파일을 제공하는 경우, 해당 BSP 파일을 사용하여 Jetpack을 업그레이드할 수 있다. 이 방법은 Jetson 모듈의 하드웨어 호환성, 특정 기능 지원, 최적화 등을 고려하여 설정되었으므로 안정적인 시스템 운영을 보장한다. BSP 파일은 일반적으로 제조사 웹사이트에서 다운로드할 수 있으며, 제공되는 설치 지침을 따라 업그레이드해야 한다. 여기서도 방법 1과 마찬가지로 Jetson 장치와 호스트 PC를 연결할 때는 반드시 데이터 전송이 가능한 micro USB 5핀 케이블을 사용해야 한다.
+Jetson 모듈을 탑재한 <u>캐리어 보드 제조사(공급업체)</u>에서 커스터마이징된 BSP 파일을 제공하는 경우, 해당 BSP 파일을 사용하여 Jetpack을 업그레이드할 수 있다. 이 방법은 Jetson 모듈의 하드웨어 호환성, 특정 기능 지원, 최적화 등을 고려하여 설정되었으므로 안정적인 시스템 운영을 보장한다. BSP 파일은 일반적으로 제조사 웹사이트에서 다운로드할 수 있으며, 제공되는 설치 지침을 따라 업그레이드해야 한다. 여기서도 방법 1과 마찬가지로 Jetson 장치와 호스트 PC를 연결할 때는 반드시 데이터 전송이 가능한 micro USB 5핀 케이블을 사용해야 한다.
 
 <br>
 
@@ -140,7 +140,7 @@ $ sudo apt install nvidia-jetpack
 
 <br>
 
-**`nvidia-jetpack` 설치 시 다음과 같은 에러 나는 경우:
+**`nvidia-jetpack` 설치 시 다음과 같은 에러 나는 경우:**
 
 ```bash
 $ sudo apt install nvidia-jetpack
@@ -149,8 +149,6 @@ Building dependency tree
 Reading state information... Done
 E: Unable to locate package nvidia-jetpack
 ```
-
-<br>
 
 이는 `/etc/apt/sources.list.d/nvidia-l4t-apt-source.list` 파일에서 릴리즈 파일 설치하는 코드(`deb ...`)가 주석 처리되어 있는 경우 발생한다. 해당 파일을 열어 주석을 해제한 후 다시 `sudo apt install nvidia-jetpack` 명령어를 실행하면 된다.
 
@@ -222,7 +220,7 @@ Jetson 환경에 PyTorch를 설치하는 과정은 JetPack 버전에 맞는 PyTo
 
 JetPack 버전에 맞는 PyTorch whl 파일을 다운로드해야 한다. [PyTorch for Jetson](https://forums.developer.nvidia.com/t/pytorch-for-jetson/72048) 페이지에서 자신의 JetPack 버전에 맞는 PyTorch whl 파일을 찾아 다운로드한다. 여기서는 JetPack 6.0 (L4T R36.3) 버전을 기준으로 설명한다.
 
-<center><img src="/assets/img/jetson-orin-setup-troubleshooting/3.png"/></center>
+<center><img src="/assets/img/jetson-orin-setup-troubleshooting/3.png" style="zoom: 140%;"/></center>
 
 위 이미지에서 <u>JetPack 6.0 (L4T R36.2 / R36.3) + CUDA 12.2</u> 버전에 맞는 whl 파일 정보를 확인할 수 있다.
 
@@ -274,8 +272,6 @@ True
 tensor([[0., 0.]], device='cuda:0'))
 ```
 
-<br>
-
 위 결과에서 PyTorch 버전(2.3.0), CUDA 사용 가능 여부 (True), CUDA 장치에서 생성된 텐서가 출력되는 것을 볼 수 있으며, 이를 통해 PyTorch와 CUDA가 Jetson 환경에서 정상적으로 작동하는 것을 확인할 수 있다.
 
 <br>
@@ -299,7 +295,7 @@ $ jtop
 
 ### 4.4.2 tegrastats
 
-tegrastats는 Jetson 장치의 시스템 상태를 모니터링하는 또 다른 도구이다. CPU, GPU 사용량, 전력 소비량, 온도 등 다양한 정보를 텍스트 기반으로 표시한다.
+**tegrastats**는 Jetson 장치의 시스템 상태를 모니터링하는 또 다른 도구이다. CPU, GPU 사용량, 전력 소비량, 온도 등 다양한 정보를 텍스트 기반으로 표시한다.
 
 ```
 $ sudo tegrastats
@@ -329,15 +325,14 @@ $ bash jetson-containers/install.sh
 
 <br>
 
-**기본 사용법:**
-
+**기본 사용법:**  
 만약 vLLM을 사용하고 싶다면, 다음과 같이 미리 빌드된 컨테이너 이미지를 실행할 수 있다.
 
 ```
 $ jetson-containers run dustynv/vllm:0.6.3-r36.4.0
 ```
 
-위 명령어는 `dustynv/vllm:0.6.3-r36.4.0` 이미지를 실행하여 vLLM 환경을 바로 사용할 수 있도록 해줍니다. 이미지 이름의 r36.4.0은 L4T 버전을 나타낸다. [jetson-containers packages](https://github.com/dusty-nv/jetson-containers/tree/master/packages#packages)에서 사용 가능한 이미지들을 확인할 수 있다.
+위 명령어는 `dustynv/vllm:0.6.3-r36.4.0` 이미지를 실행하여 vLLM 환경을 바로 사용할 수 있도록 해준다. 이미지 이름의 r36.4.0은 L4T 버전을 나타낸다. [jetson-containers packages](https://github.com/dusty-nv/jetson-containers/tree/master/packages#packages)에서 사용 가능한 이미지들을 확인할 수 있다.
 
 <br>
 
