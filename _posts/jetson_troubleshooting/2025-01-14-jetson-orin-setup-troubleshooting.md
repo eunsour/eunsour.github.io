@@ -80,7 +80,7 @@ $ cat /etc/nv_tegra_release
 # R35 (release), REVISION: 3.1, GCID: 32827747, BOARD: t186ref, EABI: aarch64, DATE: Sun Mar 19 15:19:21 UTC 2023
 ```
 
-위 명령어 실행 결과에서 **R35**와 **REVISION 3.1**에 주목해야 한다. [NVIDIA Jetpack Archive](https://developer.nvidia.com/embedded/jetpack-archive)에서 확인해본 결과, 해당 값은 **JetPack 5.1.1** ([L4T 35.3.1]) 버전임을 알 수 있다. 또한 CUDA와 Torch 버전 또한 위 JetPack 버전에 맞게 설치되어야 한다.
+위 명령어 실행 결과에서 **R35**와 **REVISION 3.1**에 주목해야 한다. [NVIDIA Jetpack Archive](https://developer.nvidia.com/embedded/jetpack-archive)에서 확인해본 결과, 해당 값은 **JetPack 5.1.1 (= L4T 35.3.1)** 버전임을 알 수 있다. 또한 CUDA와 Torch 버전 또한 위 JetPack 버전에 맞게 설치되어야 한다.
 
 <br>
 
@@ -218,15 +218,15 @@ Jetson 환경에 PyTorch를 설치하는 과정은 JetPack 버전에 맞는 PyTo
 
 ## 4.1. PyTorch whl 파일 다운로드
 
-JetPack 버전에 맞는 PyTorch whl 파일을 다운로드해야 한다. [PyTorch for Jetson](https://forums.developer.nvidia.com/t/pytorch-for-jetson/72048) 페이지에서 자신의 JetPack 버전에 맞는 PyTorch whl 파일을 찾아 다운로드한다. 여기서는 JetPack 6.0 (L4T R36.3) 버전을 기준으로 설명한다.
+먼저, [PyTorch for Jetson](https://forums.developer.nvidia.com/t/pytorch-for-jetson/72048) 페이지에서 자신의 JetPack 버전에 맞는 PyTorch whl 파일을 찾아 다운로드한다. 여기서는 JetPack 6.0 (= L4T R36.3) 버전을 기준으로 설명한다.
 
 <center><img src="/assets/img/jetson-orin-setup-troubleshooting/3.png" style="zoom: 140%;"/></center>
 
 위 이미지에서 <u>JetPack 6.0 (L4T R36.2 / R36.3) + CUDA 12.2</u> 버전에 맞는 whl 파일 정보를 확인할 수 있다.
 
-- torch 2.3 - `torch-2.3.0-cp310-cp310-linux_aarch64.whl`
-- torchvision 0.18 - `torchvision-0.18.0a0+6043bc2-cp310-cp310-linux_aarch64.whl`
-- torchaudio 2.3 - `torchaudio-2.3.0+952ea74-cp310-cp310-linux_aarch64.whl`
+- torch 2.3: `torch-2.3.0-cp310-cp310-linux_aarch64.whl`
+- torchvision 0.18: `torchvision-0.18.0a0+6043bc2-cp310-cp310-linux_aarch64.whl`
+- torchaudio 2.3: `torchaudio-2.3.0+952ea74-cp310-cp310-linux_aarch64.whl`
 
 <br>
 
@@ -243,7 +243,7 @@ $ source venv/bin/activate
 
 ## 4.3. PyTorch 설치 및 CUDA 확인
 
-다운로드한 whl 파일을 pip install 명령어로 설치한다. JetPack 6.0 (L4T R36.3)에 맞는 `torch-2.3.0-cp310-cp310-linux_aarch64.whl` 파일을 예시로 사용하였다. 
+다운로드한 whl 파일을 pip install 명령어로 설치한다. JetPack 6.0 (= L4T R36.3)에 맞는 `torch-2.3.0-cp310-cp310-linux_aarch64.whl` 파일을 예시로 사용하였다. 
 
 ```
 $ pip install torch-2.3.0-cp310-cp310-linux_aarch64.whl
@@ -346,11 +346,11 @@ $ jetson-containers run dustynv/vllm:0.6.3-r36.4.0
 Jetson AGX Orin 64GB 장비를 Embodied AI 프로젝트에 도입하는 과정은 기존 워크스테이션 환경과는 다른 Tegra 프로세서와 Jetson Linux (L4T) 운영체제에 대한 이해가 필수적임을 확인하는 여정이었다. 초기에는 아키텍처 및 운영체제 호환성 문제로 인해 어려움을 겪었지만, Jetson 환경에 대한 이해와 문제 해결을 통해 성공적인 개발 환경을 구축할 수 있었다.  
 
 이러한 시행착오와 경험을 통해 Jetson 프로세서에서 AI/ML 개발을 진행할 때 다음과 같은 점을 고려해야 함을 알 수 있었다.
-- Jetson 프로세서의 특성 이해 및 관련 문서 충분히 참고
-- Ubuntu와 JetPack (L4T) 버전 간 호환성 유지 및 JetPack 버전에 따른 PyTorch, CUDA 설정 확인
-- 라이브러리 및 패키지 설치 시 호환성 면밀히 확인 및 필요에 따라 jetson-containers 활용
-- 사용자 정의 Docker 환경 구축 시 라이브러리 간 호환성 문제 고려
-- GPU 사용량을 모니터링하여 시스템 자원을 효율적으로 관리  
+- **Jetson 프로세서의 특성 이해 및 관련 문서 충분히 참고**
+- **Ubuntu와 JetPack (L4T) 버전 간 호환성 유지 및 JetPack 버전에 따른 PyTorch, CUDA 설정 확인**
+- **라이브러리 및 패키지 설치 시 호환성 면밀히 확인 및 필요에 따라 jetson-containers 활용**
+- **사용자 정의 Docker 환경 구축 시 라이브러리 간 호환성 문제 고려**
+- **GPU 사용량을 모니터링하여 시스템 자원을 효율적으로 관리**
 
 이러한 노력과 과정을 통해 우리는 Jetson AGX Orin 64GB 장비에서 Embodied AI 프로젝트를 위한 개발 기반을 어느 정도 마련할 수 있었다. 이후에는 추론 속도의 벽에 부딪히는 또 다른 어려움이 있었는데, 추후 기회가 된다면 이 주제에 대해서도 소개하도록 하겠다. 이 글이 Jetson 환경을 처음 접하는 개발자들에게 도움이 되기를 바란다.
 
