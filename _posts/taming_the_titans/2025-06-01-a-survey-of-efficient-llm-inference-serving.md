@@ -1,14 +1,15 @@
 ---
 title: "[리뷰] A Survey of Efficient LLM Inference Serving"
-date: 2024-08-08 12:00:00 +09:00
-modified: 2024-08-08 12:00:00 +09:00
+date: 2025-06-01 12:00:00 +09:00
+modified: 2025-08-01 12:00:00 +09:00
 tags: 
     - NLP
     - LLM
 usemathjax: true
 ---
 
->Wang, Junlin, Jue Wang, Ben Athiwaratkun, Ce Zhang, and James Zou. "Mixture-of-Agents Enhances Large Language Model Capabilities." arXiv preprint arXiv:2406.04692, 2024. [[paper]](https://arxiv.org/abs/2406.04692) [[github]](https://github.com/togethercomputer/moa)
+>Zhen, Ranran, et al. "Taming the Titans: A Survey of Efficient LLM Inference Serving." arXiv preprint arXiv:2504.19720, 2024. [[paper]](https://arxiv.org/abs/2504.19720)
+
 
 최근 오픈소스 LLM들이 빠르게 발전하며 모델 아키텍처와 기능이 지속적으로 업데이트되고 있으며, 이에 대한 수요 또한 급증하고 있다. 하지만 LLM의 방대한 매개변수와 어텐션 메커니즘은 메모리 및 컴퓨팅 자원에 큰 부담을 주어, 추론 서비스 시 낮은 지연 시간과 높은 처리량 달성을 어렵게 만든다. 이러한 어려움은 서비스 수준 목표(SLO; Service Level Objectives)를 충족하기 위한 추론 서비스 최적화 연구를 촉진시켰다. 
 
