@@ -10,6 +10,18 @@ usemathjax: true
 
 >Zhen, Ranran, et al. "Taming the Titans: A Survey of Efficient LLM Inference Serving." arXiv preprint arXiv:2504.19720, 2024. [[paper]](https://arxiv.org/abs/2504.19720)
 
+[1. Introduction](#introduction)
+[2. LLM Inference Serving in Instance](#llm-inference-serving-in-instance)
+- [2.1 Model Placement](#model-placement)
+- [2.2 Request Scheduling](#request-scheduling)
+- [2.3 Decoding Length Prediction](#decoding-length-prediction)
+- [2.4 KV Cache Optimization](#kv-cache-optimization)
+- [2.5 PD Disaggregation](#pd-disaggregation)
+[3. LLM Inference Serving in Cluster](#llm-inference-serving-in-cluster)
+[4. Emerging Scenarios](#emerging-scenarios)
+[5. Future Works](#future-works)
+[6. Conclusion](#conclusion)
+
 <br>
 
 최근 오픈소스 LLM들이 빠르게 발전하며 모델 아키텍처와 기능이 지속적으로 업데이트되고 있으며, 이에 대한 수요 또한 급증하고 있다. 하지만 LLM의 방대한 매개변수와 어텐션 메커니즘은 메모리 및 컴퓨팅 자원에 큰 부담을 주어, 추론 서비스 시 낮은 지연 시간과 높은 처리량 달성을 어렵게 만든다. 이러한 어려움은 서비스 수준 목표(SLO; Service Level Objectives)를 충족하기 위한 추론 서비스 최적화 연구를 촉진시켰다. 
@@ -37,9 +49,7 @@ usemathjax: true
   - **Cloud-based LLM Serving:** 로컬 인프라 부족 시 클라우드 활용, 동적 LLM 서비스 수요 충족을 위한 확장
 - **새로운 시나리오 (Emerging Scenarios):**
   - **Long Context processing**
-  - **특정 기술 및 모듈:** 검색 증강 생성(RAG, Retrieval-Augmented Generation), Mixture-of-Experts(MoE), LoRA(Low-Rank Adaptation), 추측 디코딩(Speculative Decoding), Augmented LLMs, Test-Time Reasoning 등 진화하는 요구 사항에 대한 적응성 필요
-- **중요한 기타 영역 (Miscellaneous Areas):**
-  - 하드웨어, 개인 정보 보호, 시뮬레이터, 공정성, 에너지 효율성 등 분야의 전체적인 발전을 위한 기타 영역
+  - **특정 기술 및 모듈:** 검색 증강 생성(RAG, Retrieval-Augmented Generation), Mixture-of-Experts(MoE), LoRA(Low-Rank Adaptation), 추측 디코딩(Speculative Decoding), Augmented LLMs, Test-Time Reasoning
 
 <br>
 
@@ -50,16 +60,18 @@ usemathjax: true
 <figcaption>Figure 2: Taxonomy of Instance-Level approaches for LLM inference serving.</figcaption>
 </figure>
 
+<br>
+
 ## **2.1 Model Placement**
 LLM의 방대한 파라미터 수는 단일 GPU의 용량을 초과하는 경우가 많아, 모델을 여러 GPU에 분산하거나 CPU 메모리 혹은 스토리지로 일부를 옮기는(**오프로딩**) 전략이 필수적이다. 주요 접근 방식은 다음과 같다.
 
 1. **모델 병렬 처리 (Model Parallelism):** 모델 자체를 여러 GPU에 나누어 처리
    - **파이프라인 병렬 처리 (Pipeline Parallelism):**
      - **개념:** 모델의 레이어를 여러 GPU에 걸쳐 순차적으로 분산한다. 이를 통해 데이터가 파이프라인처럼 각 GPU를 거치며 처리되어, 순차적인 데이터의 동시 처리가 가능해지고 훈련/추론 속도가 향상된다.
-     - **예시:** GPipe, PipeDream, Megatron-LM (Narayanan et al.,2021)
+     - **ex.** GPipe, PipeDream, Megatron-LM (Narayanan et al.,2021)
    - **텐서 병렬 처리 (Tensor Parallelism):**
      - **개념:** 개별 연산 또는 레이어를 여러 장치에서 병렬로 계산되는 더 작은 하위 텐서로 분할하여 계산 효율성을 높이고 더 큰 모델 크기를 가능하게 한다.
-     - **예시:** Megatron-LM (Shoeybi et al., 2020)
+     - **ex.** Megatron-LM (Shoeybi et al., 2020)
    - **기타 특화된 병렬 처리 기술:**
      - **시퀀셜 병렬 처리 (Sequential Parallelism):** 긴 컨텍스트 처리 시, LayerNorm 및 Dropout 같은 활성화 함수를 시퀀스 차원을 따라 분할한다.
      - **컨텍스트 병렬 처리 (Context Parallelism):** 모든 레이어를 시퀀스 차원을 따라 분할하여 시퀀셜 병렬 처리를 확장한다.
@@ -155,13 +167,12 @@ LLM의 방대한 파라미터 수는 단일 GPU의 용량을 초과하는 경우
 ## **2.5 PD Disaggregation**
 **프리필/디코딩(PD) 분리**는 연산 집약적인 컨텍스트 인코딩과 메모리 집약적인 토큰 생성 단계를 서로 다른 최적화 환경으로 분리하여 LLM 추론의 연산 불균형 문제를 해결하는 접근 방식이다.
 
-- 주요 기술:
-  - **DistServe:** 각 단계(프리필, 디코딩)에 대한 리소스 할당 및 병렬 처리를 최적화하고, 대역폭 기반의 전략적 배치를 통해 통신 오버헤드를 최소화한다.
-  - **Splitwise:** 비용, 처리량, 전력 최적화를 위해 동종 및 이기종 장치 설계를 탐색한다.
-  - **DéjàVu:** 마이크로배치 스와핑 및 상태 복제를 통해 양방향 지연 시간, GPU 과잉 프로비저닝, 느린 복구로 인해 발생하는 파이프라인 버블(유휴 상태)을 해결한다.
-  - **Mooncake:** KV 캐시 중심의 분산 아키텍처를 사용하여 유휴 CPU, DRAM, SSD 리소스를 분산된 KV 캐시 스토리지에 활용하고, 높은 부하 시에는 조기 거부(early rejection)를 통해 낭비를 줄인다.
-  - **TetriInfer:** 디코딩 핫스팟(특정 부분에 부하 집중)을 피하기 위해 리소스 예측을 사용하는 2단계 스케줄링 알고리즘을 사용한다.
-  - **P/DServe:** 세분화된 프리필/디코딩 구성, 동적 조정, 온디맨드 요청 할당, 효율적인 캐시 전송을 통해 LLM 배포 문제를 해결한다.
+- **DistServe:** 각 단계(프리필, 디코딩)에 대한 리소스 할당 및 병렬 처리를 최적화하고, 대역폭 기반의 전략적 배치를 통해 통신 오버헤드를 최소화한다.
+- **Splitwise:** 비용, 처리량, 전력 최적화를 위해 동종 및 이기종 장치 설계를 탐색한다.
+- **DéjàVu:** 마이크로배치 스와핑 및 상태 복제를 통해 양방향 지연 시간, GPU 과잉 프로비저닝, 느린 복구로 인해 발생하는 파이프라인 버블(유휴 상태)을 해결한다.
+- **Mooncake:** KV 캐시 중심의 분산 아키텍처를 사용하여 유휴 CPU, DRAM, SSD 리소스를 분산된 KV 캐시 스토리지에 활용하고, 높은 부하 시에는 조기 거부(early rejection)를 통해 낭비를 줄인다.
+- **TetriInfer:** 디코딩 핫스팟(특정 부분에 부하 집중)을 피하기 위해 리소스 예측을 사용하는 2단계 스케줄링 알고리즘을 사용한다.
+- **P/DServe:** 세분화된 프리필/디코딩 구성, 동적 조정, 온디맨드 요청 할당, 효율적인 캐시 전송을 통해 LLM 배포 문제를 해결한다.
 
 <br>
 
