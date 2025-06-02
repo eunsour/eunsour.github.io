@@ -5,22 +5,24 @@ modified: 2025-06-01 12:00:00 +09:00
 tags: 
     - NLP
     - LLM
+    - Inference
 usemathjax: true
 ---
 
 >Zhen, Ranran, et al. "Taming the Titans: A Survey of Efficient LLM Inference Serving." arXiv preprint arXiv:2504.19720, 2024. [[paper]](https://arxiv.org/abs/2504.19720)
 
-[1. Introduction](#introduction)
-[2. LLM Inference Serving in Instance](#llm-inference-serving-in-instance)
-- [2.1 Model Placement](#model-placement)
-- [2.2 Request Scheduling](#request-scheduling)
-- [2.3 Decoding Length Prediction](#decoding-length-prediction)
-- [2.4 KV Cache Optimization](#kv-cache-optimization)
-- [2.5 PD Disaggregation](#pd-disaggregation)
-[3. LLM Inference Serving in Cluster](#llm-inference-serving-in-cluster)
-[4. Emerging Scenarios](#emerging-scenarios)
-[5. Future Works](#future-works)
-[6. Conclusion](#conclusion)
+[1. Introduction](#1-introduction)  
+[2. LLM Inference Serving in Instance](#2-llm-inference-serving-in-instance)
+  - [2.1 Model Placement](#21-model-placement)
+  - [2.2 Request Scheduling](#22-request-scheduling)
+  - [2.3 Decoding Length Prediction](#23-decoding-length-prediction)
+  - [2.4 KV Cache Optimization](#24-kv-cache-optimization)
+  - [2.5 PD Disaggregation](#25-pd-disaggregation)
+
+[3. LLM Inference Serving in Cluster](#3-llm-inference-serving-in-cluster)  
+[4. Emerging Scenarios](#4-emerging-scenarios)  
+[5. Future Works](#5-future-works)  
+[6. Conclusion](#6-conclusion)
 
 <br>
 
@@ -28,6 +30,7 @@ usemathjax: true
 
 본 논문은 LLM 추론 서비스의 최적화 방법들을 인스턴스 수준, 클러스터 규모 전략, 새로운 시나리오 및 기타 중요 영역으로 계층화하여 체계적으로 조사하며, 기존 연구들의 한계를 보완하여 최첨단 방법론에 대한 세분화된 분류를 제공하고 미래 연구 방향을 제시하고자 한다.
 
+<br>
 
 # 1. Introduction
 이 논문은 그림 1과 같이 LLM 추론 서비스 최적화 방법들을 다음과 같이 분류하여 설명한다.
@@ -177,7 +180,7 @@ LLM의 방대한 파라미터 수는 단일 GPU의 용량을 초과하는 경우
 <br>
 
 # 3. LLM Inference Serving in Cluster
-이 섹션에서는 그림 3과 같이 여러 장비로 구성된 클러스터 환경에서 LLM 추론 서비스의 효율적 제공을 위한 클러스터 수준 배포/스케줄링 전략과 클라우드 기반 클러스터 서비스 최적화 방안을 다룬다.
+이 섹션에서는 그림 3과 같이 여러 장비로 구성된 클러스터 환경에서 LLM 추론 서비스의 효율적 제공을 위한 **클러스터 수준 배포/스케줄링 전략**과 **클라우드 기반 클러스터 서비스 최적화 방안**을 다룬다.
 <figure align="center">
 <center><img src="/assets/img/taming_the_titans/3.png" style="zoom: 100%;" /></center>
 <figcaption>Figure 3: Taxonomy of Cluster-Level strategies for LLM inference serving.</figcaption>
@@ -186,7 +189,6 @@ LLM의 방대한 파라미터 수는 단일 GPU의 용량을 초과하는 경우
 <br>
 
 ## 3.1 클러스터 최적화 (Cluster Optimization)
-
 LLM의 대규모화로 인해 단일 머신의 한계를 극복하기 위한 클러스터 환경이 필수가 되었으며, 유연성과 비용 효율성을 위해 **이기종 머신(heterogeneous machines)** 활용이 핵심 과제로 부상하면서 <u>내부 최적화</u>(이기종 자원 활용)와 <u>외부 최적화</u>(서비스 지향 클러스터 스케줄링)의 통합적 접근이 요구되고 있다.
 
 1. **이기종 자원을 위한 아키텍처 및 최적화 (Architecture and Optimization for Heterogeneous Resources):** 다양한 성능과 특성을 가진 하드웨어(주로 GPU)를 효과적으로 통합하고 활용하는 내부 최적화 전략
@@ -262,7 +264,7 @@ LLM이 발전함에 따라 처리할 수 있는 컨텍스트의 길이가 수십
 <br>
 
 ## 4.2 RAG
-RAG는 LLM이 외부 지식을 검색하여 답변을 생성할 수 있게 해주지만, 검색 과정의 다양성과 복잡성으로 인해 대규모 검색 컨텍스트에서 지연 시간 및 KV 캐시 스토리지 최적화에 어려움이 있다.
+**RAG**는 LLM이 외부 지식을 검색하여 답변을 생성할 수 있게 해주지만, 검색 과정의 다양성과 복잡성으로 인해 대규모 검색 컨텍스트에서 지연 시간 및 KV 캐시 스토리지 최적화에 어려움이 있다.
 
 - **워크플로 스케줄링 (Workflow Scheduling):** RAG 워크플로의 효율성, 유연성, 최적화를 개선하기 위한 최근 혁신들이다.
   - **PipeRAG:** 파이프라인 병렬 처리, 유연한 검색 간격, 성능 기반 품질 조정을 통해 효율성을 향상시킨다.
@@ -297,7 +299,7 @@ RAG는 LLM이 외부 지식을 검색하여 답변을 생성할 수 있게 해�
 <br>
 
 ## 4.4 LoRA
-LoRA는 작고 훈련 가능한 어댑터(adapter)를 사용하여 기존 LLM을 특정 작업에 효율적으로 적응시키는 기법이다.
+**LoRA**는 작고 훈련 가능한 어댑터(adapter)를 사용하여 기존 LLM을 특정 작업에 효율적으로 적응시키는 기법이다.
 
 - **CaraServe:** 모델 멀티플렉싱(여러 LoRA 모델을 한 GPU에서 서비스), CPU-GPU 협력, 랭크(rank) 인식 스케줄링을 통해 GPU 효율적이고 콜드 스타트 없이 SLO(서비스 수준 목표)를 만족하는 서비스를 지원한다.
 - **dLoRA:** 어댑터를 기본 모델과 동적으로 병합(merge) 및 병합 해제(unmerge)하고, 작업자(worker) 복제본 간에 요청과 어댑터를 마이그레이션하여 유연성을 높인다.
@@ -305,7 +307,7 @@ LoRA는 작고 훈련 가능한 어댑터(adapter)를 사용하여 기존 LLM을
 <br>
 
 ## 4.5 Speculative Decoding
-추측 디코딩은 더 작은 보조 LLM을 사용하여 먼저 여러 초안 토큰을 생성하고, 이를 원래의 큰 대상 LLM과 병렬로 검증하여 추론 속도를 높이는 기법이다. 이를 통해 품질 저하 없이 지연 시간과 비용을 줄일 수 있다.
+**추측 디코딩**은 더 작은 보조 LLM을 사용하여 먼저 여러 초안 토큰을 생성하고, 이를 원래의 큰 대상 LLM과 병렬로 검증하여 추론 속도를 높이는 기법이다. 이를 통해 품질 저하 없이 지연 시간과 비용을 줄일 수 있다.
 
 - **SpecInfer:** 트리 기반의 추론적 추론(tree-based speculative inference)을 사용하여 더 빠른 분산 환경 및 단일 GPU 오프로딩 환경에서의 추론을 지원한다.
 
