@@ -13,20 +13,22 @@ usemathjax: true
 
 >Sapkota Ranjan, et al. "Vision-Language-Action Models: Concepts, Progress, Applications and Challenges" arXiv preprint arXiv:2505.4769, 2025. [[paper]](https://arxiv.org/abs/2505.04769)
 
+<br>
+
 이 논문은 지난 3년간 Vision-Language-Action(VLA) 모델이 어떻게 로봇 공학의 판도를 바꾸었는지 종합적으로 분석합니다. 과거에는 '보고', '이해하고', '움직이는' 기능이 분리되어 있던 로봇 시스템이, VLA의 등장으로 이 세 가지를 하나의 프레임워크로 통합하여 "저기 사과 좀 가져다줘"와 같은 복잡한 명령을 실제 행동으로 옮길 수 있게 되었습니다. 하지만 아직 실시간 추론 속도가 느리고, 안전성을 보장하기 어려우며, 새로운 환경에 대한 일반화 능력이 부족한데다 시스템이 너무 복잡하고 무겁다는 명확한 한계에 직면해 있습니다. 논문은 이러한 과제들을 해결하고, 스스로 학습하고 적응하는 에이전트 AI(Agentic AI) 기술과 융합하는 것이, 로봇을 단순한 기계를 넘어 인간과 함께하는 진정한 지능형 파트너로 만드는 핵심적인 미래 방향이라고 결론짓습니다.
 
 <br>
 
-[1. Introduction](#1-introduction)
+[1. Introduction](#1-introduction)  
 [2. Concepts of Vision-Language-Action Models](#2-concepts-of-vision-language-action-models)
   - [2.1. Evolution and Timeline](#21-evolution-and-timeline)
   - [2.2. Multimodal Integration: From Isolated Pipelines to Unified Agents](#22-multimodal-integration-from-isolated-pipelines-to-unified-agents)
   - [2.3. Tokenization and Representation: How VLAs Encode the World](#23-tokenization-and-representation-how-vlas-encode-the-world)
   - [2.4. Learning Paradigms: Data Sources and Training Strategies](#24-learning-paradigms-data-sources-and-training-strategies)
-  - [2.5. Adaptive Control and Real-Time Execution](#25-adaptive-control-and-real-time-execution)
+  - [2.5. Adaptive Control and Real-Time Execution](#25-adaptive-control-and-real-time-execution)  
 [3. Progress in Vision-Language-Action Models](#3-progress-in-vision-language-action-models)
   - [3.1. Architectural Innovations in VLA Models](#31-architectural-innovations-in-vla-models)
-  - [3.2. Training and Efficiency Advancements in Vision-Language-Action Models](#32-training-and-efficiency-advancements-in-vision-language-action-models)
+  - [3.2. Training and Efficiency Advancements in Vision-Language-Action Models](#32-training-and-efficiency-advancements-in-visionlanguageaction-models)
   - [3.3. Parameter-Efficient Methods and Acceleration Techniques in VLA Models](#33-parameter-efficient-methods-and-acceleration-techniques-in-vla-models)
   - [3.4. Applications of Vision-Language-Action Models](#34-applications-of-vision-language-action-models)
     - [3.4.1. Humanoid Robotics](#341-humanoid-robotics)
@@ -34,16 +36,16 @@ usemathjax: true
     - [3.4.3. Industrial Robotics](#343-industrial-robotics)
     - [3.4.4. Healthcare and Medical Robotics](#344-healthcare-and-medical-robotics)
     - [3.4.5. Precision and Automated Agriculture](#345-precision-and-automated-agriculture)
-    - [3.4.6. Interactive AR Navigation with Vision-Language-Action Models](#346-interactive-ar-navigation-with-vision-language-action-models)
+    - [3.4.6. Interactive AR Navigation with Vision-Language-Action Models](#346-interactive-ar-navigation-with-vision-language-action-models)  
 [4. Challenges and Limitations of Vision-Language-Action Models](#4-challenges-and-limitations-of-vision-language-action-models)
   - [4.1. Real-Time Inference Constraints](#41-real-time-inference-constraints)
   - [4.2. Multimodal Action Representation and Safety Assurance](#42-multimodal-action-representation-and-safety-assurance)
   - [4.3. Dataset Bias, Grounding, and Generalization to Unseen Tasks](#43-dataset-bias-grounding-and-generalization-to-unseen-tasks)
   - [4.4. System Integration Complexity and Computational Demands](#44-system-integration-complexity-and-computational-demands)
-  - [4.5. Robustness and Ethical Challenges in VLA Deployment](#45-robustness-and-ethical-challenges-in-vla-deployment)
+  - [4.5. Robustness and Ethical Challenges in VLA Deployment](#45-robustness-and-ethical-challenges-in-vla-deployment)  
 [5. Discussion](#5-discussion)
   - [5.1. Potential Solutions](#51-potential-solutions)
-  - [5.2. Future Roadmap](#52-future-roadmap)
+  - [5.2. Future Roadmap](#52-future-roadmap)  
 [6. Conclusion](#6-conclusion)
 
 <br>
@@ -147,7 +149,7 @@ VLA 모델을 기존의 시각-언어 아키텍처와 구별 짓는 핵심 혁�
 
 - **역할:** 모델의 **컨텍스트 백본(contextual backbone)** 역할
 - **정보:** 환경 정보(이미지, 비디오)와 자연어 명령을 압축된 임베딩으로 인코딩.
-- 작동 방식 (Figure 7 참조):
+- **작동 방식 (Figure 7 참조):**
   - **비전 인코더 (ViT 등):** 장면 이미지를 처리.
   - **언어 모델 (T5 등):** "녹색 블록을 빨간색 트레이에 쌓아라"와 같은 명령어를 임베딩.
   - 두 정보가 **접두사 토큰 시퀀스**로 변환되어 모델의 목표와 환경에 대한 초기 이해를 형성.
@@ -163,7 +165,7 @@ VLA 모델을 기존의 시각-언어 아키텍처와 구별 짓는 핵심 혁�
 
 - **역할:** 로봇의 **내부 물리적 상태**를 실시간으로 인코딩.
 - **정보:** 관절 각도, end-effector 자세, 그리퍼 상태, 힘-토크 센서 값 등 고유수용성(proprioceptive) 정보를 포함.
-- 중요성 (Figure 8 참조):
+- **중요성 (Figure 8 참조):**
   - **조작 시:** 로봇 팔이 물체에 충돌할 위험이 있을 때, 상태 토큰이 현재 관절 각도, 그리퍼 위치 등의 정보를 제공. 모델은 이를 바탕으로 충돌을 예측하고 궤도를 수정하거나 힘을 조절함.
   - **이동 시:** 모바일 로봇의 주행 거리, LiDAR 스캔 데이터 등을 캡슐화하여 지형을 인지하고 장애물을 회피하는 데 필수적임.
 - **기능:** 외부 환경 정보(접두사 토큰)와 내부 상태 정보(상태 토큰)를 융합하여, 상황을 정확히 인식하고 안전하고 정밀한 의사결정을 가능하게 함.
