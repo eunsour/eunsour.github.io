@@ -11,26 +11,7 @@ usemathjax: true
 <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 
 
->Sapkota Ranjan, et al. "Vision-Language-Action Models: Concepts, Progress, Applications and Challenges
-" arXiv preprint arXiv:2505.4769, 2025. [[paper]](https://arxiv.org/abs/2505.04769)
-
-[1. Introduction](#1-introduction)  
-[2. OpenVLA Model](#2-openvla-model)
-  - [2.1 Preliminaries: Vision-Language Models](#21-preliminaries-vision-language-models)
-  - [2.2 OpenVLA Training Procedure](#22-openvla-training-procedure)
-  - [2.3 Training Data](#23-training-data)
-  - [2.4 OpenVLA Design Decisions](#24-openvla-design-decisions)
-  - [2.5 Infrastructure for Training and Inference](#25-infrastructure-for-training-and-inference)  
-
-[3. The OpenVLA Codebase](#3-the-openvla-codebase)  
-[4. Experiments](#4-experiments)
-  - [4.1 Direct Evaluations on Multiple Robot Platforms](#41-direct-evaluations-on-multiple-robot-platforms)
-  - [4.2 Data-Efficient Adaptation to New Robot Setups](#42-data-efficient-adaptation-to-new-robot-setups)
-  - [4.3 Parameter-Efficient Fine-Tuning](#43-parameter-efficient-fine-tuning)
-  - [4.4 Memory-Efficient Inference via Quantization](#44-memory-efficient-inference-via-quantization)
-
-[5. Discussion and Limitations](#5-discussion-and-limitations)  
-[6. Conclusions](#6-conclusions)
+>Sapkota Ranjan, et al. "Vision-Language-Action Models: Concepts, Progress, Applications and Challenges" arXiv preprint arXiv:2505.4769, 2025. [[paper]](https://arxiv.org/abs/2505.04769)
 
 <br>
 
@@ -52,11 +33,11 @@ VLA 모델이 AI 로보틱스 분야에 가져온 패러다임의 전환은 매�
 
 이를 위해 본 논문은 아래의 3가지 핵심 영역을 중심으로 VLA 모델을 체계적으로 분석할 것입니다.
 
-- 1부: 개념적 기초 (Conceptual Foundations)
+- **1부: 개념적 기초 (Conceptual Foundations)**
   - VLA 모델의 구성 요소, 역사적 진화, 멀티모달 통합 메커니즘, 토큰화 및 인코딩 전략 등 핵심 개념을 상세히 다룸.
-- 2부: 최근 기술 발전 동향 (Recent Progress)
+- **2부: 최근 기술 발전 동향 (Recent Progress)**
   - 최신 아키텍처 혁신, 데이터 효율적 학습 프레임워크, 파라미터 효율적 모델링, 모델 가속화 전략 등 실용화를 위한 기술적 발전을 통합적으로 제시.
-- 3부: 현재의 한계와 미래 과제 (Current Limitations)
+- **3부: 현재의 한계와 미래 과제 (Current Limitations)**
   - 추론 병목 현상, 안전 문제, 높은 연산 비용, 제한된 일반화, 윤리적 함의 등 VLA 시스템이 직면한 문제를 포괄적으로 논의하고 잠재적 해결책을 제시.
 
 
@@ -174,9 +155,9 @@ VLA 모델을 기존의 시각-언어 아키텍처와 구별 짓는 핵심 혁�
 
 - **역할:** 모델이 생성하는 **최종 출력**으로, 로봇의 다음 행동 단계를 나타냄
 - **정보:** 관절 각도 업데이트, 휠 속도, 그리퍼 힘 조절 등 저수준 제어 신호나 "잡기 자세로 이동" 같은 고수준 행동 명령에 해당
-- 생성 방식:
+- **생성 방식:**
   - 접두사 토큰과 상태 토큰을 조건으로, **자기회귀 방식(auto-regressively)**으로 다음 액션 토큰을 한 단계씩 예측함 (언어 모델이 다음 단어를 예측하는 것과 유사)
-- 장점 (Figure 9 참조):
+- **장점 (Figure 9 참조):**
   - 물리적 행동 시퀀스 생성을 **자연어 생성 문제처럼** 다룰 수 있음.
   - 실제 로봇 제어 시스템과 원활하게 통합되며, 가변 길이의 행동 시퀀스를 지원.
   - 강화 학습이나 모방 학습을 통해 파인 튜닝이 용이함.
@@ -192,7 +173,7 @@ VLA 모델을 기존의 시각-언어 아키텍처와 구별 짓는 핵심 혁�
 <br>
 
 1. **입력 획득:** RGB-D 이미지, 자연어 명령, 로봇 상태(관절 각도 등) 데이터를 수집
-2. 개별 토큰화:
+2. **개별 토큰화:**
    - 이미지 → **비전 토큰** (by ViT)
    - 명령어 → **언어 토큰** (by BERT/T5)
    - 로봇 상태 → **상태 토큰** (by MLP)
@@ -239,14 +220,14 @@ VLA 모델의 등장은 ChatGPT와 같은 LLM의 경이로운 성공에 크게 �
 - **사례: EF-VLA (2025):** CLIP의 고정된 인코더를 사용하여 의미론적 일관성을 유지
 - **장점:** 과적합 감소, 일반화 성능 향상, 계산 효율성 유지, 치명적 망각(catastrophic forgetting) 방지
 **2. 이중 시스템 아키텍처 (Dual-System Architectures)**
-- 개념: 인간 인지의 이중 처리 이론에서 영감을 받아, 두 개의 상호 보완적인 시스템을 구현
+- **개념:** 인간 인지의 이중 처리 이론에서 영감을 받아, 두 개의 상호 보완적인 시스템을 구현
   - **System 1 (빠른 반응 모듈):** 저지연(10ms) 확산 정책을 통해 저수준 실시간 제어 담당 (ex. end-effector 안정화 또는 적응형 파지(adaptive grasping))
   - **System 2 (느린 추론 플래너):** LLM 기반 플래너를 통해 고수준 작업 계획을 원자적 하위 작업으로 구문 분석 (ex. 테이블 청소)
 - **사례: Groot N1 (NVIDIA, 2025)**
 - **장점:** 다중 시간 척도 추론 가능, 안전성 향상, 복잡한 작업 수행 능력 증대
 **3. 자기 수정 프레임워크 (Self-Correcting Frameworks)**
 - **개념:** 외부 감독 없이 스스로 실패를 감지하고 복구하는 능력
-- 사례: SC-VLA (2024):
+- **사례:** SC-VLA (2024):
   - **빠른 추론 경로:** 기본 행동을 신속하게 생성
   - **느린 수정 경로:** 실패 감지 시, LLM을 활용한 **연쇄적 사고(Chain-of-Thought) 추론**으로 실패 원인을 진단하고 수정 전략을 생성 (ex. 활성 시점 변경 또는 그리퍼 재정렬 제안)
 - **장점:** 작업 실패율 감소, 복잡하고 예측 불가능한 환경에서의 견고성(robustness) 향상
@@ -267,15 +248,15 @@ VLA 모델은 컴퓨팅 요구 사항을 줄이고 실시간 제어를 가능하
 
 1. **데이터 효율적 학습 (Data-Efficient Learning)**
 - **목표:** 더 적은 데이터로 더 나은 성능을 달성하고, 데이터 부족 문제를 해결
-- 주요 기술:
-  - Co-fine-tuning (공동 파인 튜닝):
+- **주요 기술:**
+  - **Co-fine-tuning (공동 파인 튜닝):**
     - **방법:** 웹 데이터(LAION-5B 등)와 로봇 데이터(Open X-Embodiment 등)를 함께 사용하여 파인 튜닝
     - **효과:** 의미 이해(semantic)와 운동 기술(motor skill)을 효과적으로 정렬
     - **사례:** OpenVLA(7B)는 더 큰 모델인 RT-2(55B)보다 16.5% 더 높은 성공률을 달성하며, 적은 파라미터로도 강력한 일반화가 가능함을 입증
-  - Synthetic Data Generation (합성 데이터 생성):
+  - **Synthetic Data Generation (합성 데이터 생성):**
     - **방법:** UniSim과 같은 도구를 사용하여 가려짐(occlusion), 동적 조명(dynamic lighting) 등 현실적인 시나리오를 인공적으로 생성
     - **효과:** 실제 데이터로 얻기 힘든 희귀한 edge-case를 보강하여, 복잡한 환경에서 모델의 견고성(robustness)을 20% 이상 향상
-  - Self-Supervised Pretraining (자가 지도 사전 학습):
+  - **Self-Supervised Pretraining (자가 지도 사전 학습):**
     - **방법:** CLIP처럼 대조 학습(contrastive objectives)을 사용하여, 레이블 없는 데이터로 시각-텍스트 임베딩을 사전 학습
     - **효과:** 특정 작업 레이블에 대한 의존도를 줄이고, 이후 액션 파인 튜닝 단계의 수렴 속도를 가속화
     - **사례:** Qwen2-VL은 이 방식을 활용하여 물체 잡기 작업의 수렴 속도를 12% 가속화
@@ -288,12 +269,12 @@ VLA 모델은 컴퓨팅 요구 사항을 줄이고 실시간 제어를 가능하
     - **사례:** $\pi_0$-Fast 모델은 단 10M개의 어댑터 파라미터만 사용하여, 거의 성능 저하 없이 200Hz의 연속 제어를 달성
 3. **추론 가속화 (Inference Acceleration)**
 - **목표:** 모델의 실행 속도를 높여 실시간 제어를 가능하게 함
-- 주요 기술:
-  - Compressed Action Tokens & Parallel Decoding:
+- 주요 기술:**
+  - **Compressed Action Tokens & Parallel Decoding:**
     - **방법:** 액션 토큰을 압축하고, 병렬 디코딩 기술을 사용.
     - **효과:** 궤적의 부드러움은 약간 손해 보지만, 5ms 미만의 초저지연을 달성하고 정책 실행 속도를 2.5배 향상
     - **사례:** Groot N1과 같은 이중 시스템 프레임워크에서 사용
-  - Hardware-Aware Optimizations (하드웨어 최적화):
+  - **Hardware-Aware Optimizations (하드웨어 최적화):**
     - **방법:** 텐서 코어 양자화(quantization), 파이프라인 어텐션 커널 등 하드웨어 특성에 맞춰 모델을 최적화
     - **효과:** 런타임 메모리 사용량을 8GB 미만으로 줄여, 임베디드 GPU에서도 실시간 추론이 가능하게 함
 
@@ -304,21 +285,21 @@ VLA 모델은 컴퓨팅 요구 사항을 줄이고 실시간 제어를 가능하
 ## 3.3. Parameter-Efficient Methods and Acceleration Techniques in VLA Models
 리소스가 제한된 로봇 플랫폼에 VLA 모델을 배포하기 위해, 모델의 크기를 줄이고(파라미터 효율성) 추론 속도를 높이는(가속) 기술들이 중요해짐.
 
-1. LoRA (Low-Rank Adaptation)
+1. **LoRA (Low-Rank Adaptation)**
    - **방법:** 거대한 사전 훈련 모델의 가중치는 고정하고, 작은 훈련 가능한 행렬(어댑터)만 추가하여 파인 튜닝
    - 효과:
      - GPU 컴퓨팅 자원을 70% 절약하면서 수십억 파라미터 모델을 튜닝 가능
      - 소규모 연구실에서도 소비자용 GPU로 대규모 VLA 모델을 활용할 수 있게 됨
    - **사례:** OpenVLA는 20M 파라미터의 LoRA 어댑터만으로 7B 모델을 24시간 내에 튜닝
-2. Quantization (양자화)
+2. **Quantization (양자화)**
    - **방법:** 모델 가중치의 정밀도를 Float32에서 INT8로 낮춤
    - **효과:** 모델 크기는 절반으로, 처리량은 두 배로 증가
    - **사례:** Jetson Orin에서 INT8 양자화를 적용한 OpenVLA는 성능 저하를 최소화(5% 이내)하면서 50W급 엣지 장치에서 30Hz 제어를 가능하게 함
-3. Model Pruning (모델 가지치기)
+3. **Model Pruning (모델 가지치기)**
    - **방법:** 불필요하다고 판단되는 모델의 일부(어텐션 헤드 등)를 제거
    - **효과:** 메모리 사용량을 25% 줄여 4GB 미만의 저사양 환경에서도 배포 가능
    - **사례:** Diffusion Policy의 비전 인코더 20%를 가지치기해도 성능 저하는 미미했음
-4. Compressed Action Tokenization (FAST)
+4. **Compressed Action Tokenization (FAST)**
    - **방법:** 연속적인 액션 출력을 주파수 영역의 토큰으로 변환하여, 긴 제어 시퀀스를 짧게 압축
    - **효과:** 추론 속도를 15배 향상시켜 200Hz의 초고속 정책 실행이 가능
    - **사례:** $\pi_0$-Fast 모델은 이 기술로 양손 조립과 같은 동적인 작업에 적합한 고주파 제어를 달성
@@ -330,10 +311,10 @@ VLA 모델은 컴퓨팅 요구 사항을 줄이고 실시간 제어를 가능하
 - **효과:** Groot N1은 순차적 디코딩의 병목 현상을 해결하여, 지연 시간을 2.5배 단축하고 추론 단계를 40%까지 줄임. 100~200Hz의 빠른 결정 속도를 지원.
 
 **6. Reinforcement Learning–Supervised Hybrid Training (RL-SL 하이브리드 훈련)**
-- 방법:
+- 방법:**
   - 강화 학습(RL)과 인간 시연 데이터 기반의 지도 학습(SL)을 번갈아 가며 훈련
   - Direct Preference Optimization (DPO)을 활용하여 보상 모델을 형성하고 Conservative QLearning을 사용하여 외삽 오류를 방지
-- 효과:
+- **효과:**
   - RL의 불안정한 탐색 문제를 안정화하고, SL의 의미 충실도를 유지
   - 순수 RL 대비 샘플 복잡성을 60% 줄이면서, 동적 장애물 회피와 같은 어려운 작업에 대한 강력한 정책을 학습
 - **사례:** iRe-VLA 프레임워크
@@ -513,19 +494,19 @@ VLA 모델이 실제 세계에서 신뢰를 얻기 위해서는 현재의 기술
 ## 4.3. Dataset Bias, Grounding, and Generalization to Unseen Tasks
 다음은 VLA 모델의 성능을 저해하는 근본적인 문제입니다.
 
-- 데이터셋 편향 (Dataset Bias):
+- **데이터셋 편향 (Dataset Bias):**
   - **원인:** 웹에서 대규모로 수집된 훈련 데이터셋은 사회적/문화적 편향을 그대로 담고 있음.
   - **사례:** 표준 데이터셋의 약 17%가 "의사"는 남성과, "간호사"는 여성과 연결하는 등 **성별 고정관념과 같은 편향**을 포함함.
   - **결과:** 편향된 데이터로 학습한 VLA는 실제 환경에서 **상황에 맞지 않거나 의미적으로 잘못된 행동**을 할 위험이 높음.
-- 그라운딩 결함 (Grounding Defects):
+- **그라운딩 결함 (Grounding Defects):**
   - **정의:** 언어적 개념을 실제 세계의 시각적 대상이나 상황과 정확하게 연결하지 못하는 문제.
   - **사례:** OpenVLA 같은 모델은 새로운 환경에서 객체 참조의 약 23%를 놓치는 것으로 나타남. 이는 "저 파란색 컵을 집어줘" 같은 명령을 정확히 수행할 수 없음을 의미.
   - **결과:** 실제 애플리케이션에서의 **유용성과 신뢰도를 심각하게 손상**시킴.
-- 조합적 일반화(Compositional Generalization) 실패:
+- **조합적 일반화(Compositional Generalization) 실패:**
   - **정의:** 학습 데이터에 드물게 나타나는 비전형적인 조합을 이해하지 못하는 문제.
   - **사례:** "노란색 말"과 같이 흔치 않은 개념 조합을 마주했을 때, 모델이 이를 해석하는 데 실패함.
   - **결과:** 예측 불가능한 실제 세계의 다양성에 대처하는 능력이 떨어짐.
-- 보이지 않는 작업으로의 일반화(broader issue of generalization to unseen tasks) 한계
+- **보이지 않는 작업으로의 일반화(broader issue of generalization to unseen tasks) 한계**
   - **문제점:** 모델이 훈련 데이터와 유사한 환경이나 작업에서는 뛰어난 성능을 보이지만, **완전히 새로운 작업이나 환경에 직면하면 성능이 급격히 저하**됨 (최대 40%까지 성능 저하).
   - 원인:
     - **과적합(Overfitting):** 좁은 범위의 훈련 데이터 분포에 과도하게 최적화됨.
@@ -539,19 +520,17 @@ VLA 모델의 실용적인 배포를 위해서는 편향이 제거된 **균형 �
 
 ## 4.4. System Integration Complexity and Computational Demands
 VLA 모델을 실제 로봇에 통합하는 과정에서 발생하는 세 가지 주요 문제입니다.
-- 이중 시스템 아키텍처의 딜레마: 시간적 불일치 (Temporal Misalignment)
+- **이중 시스템 아키텍처의 딜레마: 시간적 불일치 (Temporal Misalignment)**
   - 개념:
     VLA는 보통 두 개의 시스템으로 구성됨.
     - **System 2 (계획 시스템):** LLM(GPT, Llama-2 등)을 사용해 고수준의 복잡한 계획을 세움. **매우 느림 (추론에 약 800ms 이상 소요)**.
     - **System 1 (제어 시스템):** 저수준의 빠른 모터 제어를 실행. **매우 빠름 (약 10ms 간격으로 작동)**.
   - **문제점:** 두 시스템의 작동 속도 차이가 너무 커서 **동기화가 어렵고, 이로 인해 지연과 불안정한(jerky) 움직임이 발생**함 (ex. NVIDIA Groot N1 모델).
-
-- 특징 공간의 불일치 (Feature Space Misalignment)
+- **특징 공간의 불일치 (Feature Space Misalignment)**
   - **개념:** 고차원의 복잡한 시각 정보(Vision Transformer)와 저차원의 단순한 행동 정보(Action Decoder) 간의 데이터 형태가 일치하지 않음.
   - **문제점:** 이 불일치를 조정하는 과정에서 **지각적 이해와 실제 행동 간의 일관성이 깨짐**.
   - **결과:** 특히 시뮬레이션에서 학습한 모델을 실제 로봇에 적용할 때(Sim-to-Real), 센서 노이즈 등으로 인해 **성능이 최대 32%까지 저하**됨 (ex. OpenVLA, RoboMamba).
-
-- 막대한 계산 및 에너지 요구사항
+- **막대한 계산 및 에너지 요구사항**
   - **문제점:** VLA 모델은 엄청난 수의 파라미터를 가짐 (ex. 7B 이상).
   - **요구 사양:** 이를 구동하기 위해서는 **28GB가 넘는 VRAM** 등 막대한 컴퓨팅 자원이 필요.
   - **현실의 한계:** 이러한 요구 사항은 자율 드론, 모바일 로봇 등 **엣지 컴퓨팅(Edge Computing) 환경**의 하드웨어 성능을 훨씬 뛰어넘음.
@@ -589,30 +568,30 @@ VLA 모델은 실제 환경에 적용되기 위해 알고리즘, 컴퓨팅, 윤�
 ## 5.1. Potential Solutions
 각 과제에 대한 구체적인 기술적 해결 방안은 다음과 같습니다.
 
-1. Real-Time Inference Constraints
+1. **Real-Time Inference Constraints**
    - **하드웨어 가속:** FPGA, 최적화된 텐서 코어 등 특수 하드웨어를 활용하여 연산 속도를 서브밀리초 단위로 향상
    - **모델 압축:** LoRA, 지식 증류 등을 통해 파라미터 수를 90%까지 줄여 메모리와 추론 시간 단축
    - **점진적 양자화:** 혼합 정밀도 연산(FP16/INT8)으로 정확도 손실을 최소화하며 계산량을 2~4배 감소
    - **적응형 추론:** 입력의 복잡도에 따라 네트워크 깊이를 동적으로 조절하여 불필요한 계산을 건너뜀 (ex. early-exit).
    - **효율적 토큰화:** 토큰 수를 최소화하는 압축 기법을 사용
    - **목표:** 일반적인 엣지 GPU에서 50ms 미만의 종단간(end-to-end) 추론 속도를 달성
-2. Multimodal Action Representation and Safety Assurance.
+2. **Multimodal Action Representation and Safety Assurance.**
    - **하이브리드 정책:** 고수준 계획(자기회귀)과 저수준 행동 샘플링(확산)을 결합하여 유연하고 다양한 행동 생성
    - **실시간 위험 평가:** 다중 센서 정보를 융합하여 충돌 확률 등을 예측하고, 위험 시 비상 정지 회로를 작동
    - **제약 조건 기반 강화학습:** 안전 제약 조건을 엄격히 준수하면서 작업 성공률을 극대화하는 정책 학습 (ex. SafeVLA)
    - **온라인 모델 적응:** 새로운 환경에 실시간으로 적응하여 일관된 안전 성능 보장 (ex. GRPO, DPO)
    - **정형 검증(Formal Verification):** 신경망 컨트롤러의 출력을 실행 전에 분석하여 안전성을 수학적으로 보장.
-3. Dataset Bias, Grounding, and Generalization to Unseen Tasks.
+3. **Dataset Bias, Grounding, and Generalization to Unseen Tasks.**
    - **대규모 편향 없는 데이터셋 구축:** 웹 스케일 데이터(LAION-5B)와 로봇 중심 데이터(Open X-Embodiment)를 결합.
    - **고급 파인 튜닝:** 대조 학습(Contrastive fine-tuning) 등으로 잘못된 상관관계를 줄이고 의미적 정확도 향상.
    - **메타 학습 및 지속적 학습:** 새로운 작업에 빠르게 적응하고, 과거 지식을 잊지 않도록(catastrophic forgetting 방지) 학습
    - **전이 학습:** 3D 인식 모델 등을 활용하여 공간적 이해 능력을 부여하고 강건성 향상
    - **Sim-to-Real 파인 튜닝:** 도메인 랜덤화 기법을 사용해 시뮬레이션에서 학습한 정책이 실제 로봇에서 잘 작동하도록 보장
-4. System Integration Complexity and Computational Demands.
+4. **System Integration Complexity and Computational Demands.**
    - **모델 모듈화 및 경량화:** LoRA 어댑터, 지식 증류, 양자화 인식 훈련 등으로 모델을 가볍고 효율적으로 만듦
    - **하드웨어-소프트웨어 공동 설계:** VLA 워크로드에 특화된 하드웨어 가속기와 최적화된 툴체인(TensorRT-LLM)을 개발하여 저전력 환경에서 고성능 달성
    - **효율적인 아키텍처 개발:** 1B 파라미터 미만의 TinyVLA와 같이 작지만 강력한 모델을 설계
-5. Robustness and Ethical Challenges in VLA Deployment.
+5. **Robustness and Ethical Challenges in VLA Deployment.**
    - 강건성 향상:
      - **도메인 랜덤화:** 사실적인 시뮬레이터를 통해 조명, 가려짐 등 다양한 환경 변화에 대한 모델의 저항력을 키움
      - **적응형 재보정:** 실시간 피드백으로 센서 드리프트 등을 보정
