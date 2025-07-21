@@ -13,9 +13,38 @@ usemathjax: true
 
 >Sapkota Ranjan, et al. "Vision-Language-Action Models: Concepts, Progress, Applications and Challenges" arXiv preprint arXiv:2505.4769, 2025. [[paper]](https://arxiv.org/abs/2505.04769)
 
+이 논문은 지난 3년간 Vision-Language-Action(VLA) 모델이 어떻게 로봇 공학의 판도를 바꾸었는지 종합적으로 분석합니다. 과거에는 '보고', '이해하고', '움직이는' 기능이 분리되어 있던 로봇 시스템이, VLA의 등장으로 이 세 가지를 하나의 프레임워크로 통합하여 "저기 사과 좀 가져다줘"와 같은 복잡한 명령을 실제 행동으로 옮길 수 있게 되었습니다. 하지만 아직 실시간 추론 속도가 느리고, 안전성을 보장하기 어려우며, 새로운 환경에 대한 일반화 능력이 부족한데다 시스템이 너무 복잡하고 무겁다는 명확한 한계에 직면해 있습니다. 논문은 이러한 과제들을 해결하고, 스스로 학습하고 적응하는 에이전트 AI(Agentic AI) 기술과 융합하는 것이, 로봇을 단순한 기계를 넘어 인간과 함께하는 진정한 지능형 파트너로 만드는 핵심적인 미래 방향이라고 결론짓습니다.
+
 <br>
 
-이 논문은 지난 3년간 Vision-Language-Action(VLA) 모델이 어떻게 로봇 공학의 판도를 바꾸었는지 종합적으로 분석합니다. 과거에는 '보고', '이해하고', '움직이는' 기능이 분리되어 있던 로봇 시스템이, VLA의 등장으로 이 세 가지를 하나의 프레임워크로 통합하여 "저기 사과 좀 가져다줘"와 같은 복잡한 명령을 실제 행동으로 옮길 수 있게 되었습니다. 하지만 아직 실시간 추론 속도가 느리고, 안전성을 보장하기 어려우며, 새로운 환경에 대한 일반화 능력이 부족한데다 시스템이 너무 복잡하고 무겁다는 명확한 한계에 직면해 있습니다. 논문은 이러한 과제들을 해결하고, 스스로 학습하고 적응하는 에이전트 AI(Agentic AI) 기술과 융합하는 것이, 로봇을 단순한 기계를 넘어 인간과 함께하는 진정한 지능형 파트너로 만드는 핵심적인 미래 방향이라고 결론짓습니다.
+[1. Introduction](#1-introduction)
+[2. Concepts of Vision-Language-Action Models](#2-concepts-of-vision-language-action-models)
+  - [2.1. Evolution and Timeline](#21-evolution-and-timeline)
+  - [2.2. Multimodal Integration: From Isolated Pipelines to Unified Agents](#22-multimodal-integration-from-isolated-pipelines-to-unified-agents)
+  - [2.3. Tokenization and Representation: How VLAs Encode the World](#23-tokenization-and-representation-how-vlas-encode-the-world)
+  - [2.4. Learning Paradigms: Data Sources and Training Strategies](#24-learning-paradigms-data-sources-and-training-strategies)
+  - [2.5. Adaptive Control and Real-Time Execution](#25-adaptive-control-and-real-time-execution)
+[3. Progress in Vision-Language-Action Models](#3-progress-in-vision-language-action-models)
+  - [3.1. Architectural Innovations in VLA Models](#31-architectural-innovations-in-vla-models)
+  - [3.2. Training and Efficiency Advancements in Vision-Language-Action Models](#32-training-and-efficiency-advancements-in-vision-language-action-models)
+  - [3.3. Parameter-Efficient Methods and Acceleration Techniques in VLA Models](#33-parameter-efficient-methods-and-acceleration-techniques-in-vla-models)
+  - [3.4. Applications of Vision-Language-Action Models](#34-applications-of-vision-language-action-models)
+    - [3.4.1. Humanoid Robotics](#341-humanoid-robotics)
+    - [3.4.2. Autonomous Vehicle Systems](#342-autonomous-vehicle-systems)
+    - [3.4.3. Industrial Robotics](#343-industrial-robotics)
+    - [3.4.4. Healthcare and Medical Robotics](#344-healthcare-and-medical-robotics)
+    - [3.4.5. Precision and Automated Agriculture](#345-precision-and-automated-agriculture)
+    - [3.4.6. Interactive AR Navigation with Vision-Language-Action Models](#346-interactive-ar-navigation-with-vision-language-action-models)
+[4. Challenges and Limitations of Vision-Language-Action Models](#4-challenges-and-limitations-of-vision-language-action-models)
+  - [4.1. Real-Time Inference Constraints](#41-real-time-inference-constraints)
+  - [4.2. Multimodal Action Representation and Safety Assurance](#42-multimodal-action-representation-and-safety-assurance)
+  - [4.3. Dataset Bias, Grounding, and Generalization to Unseen Tasks](#43-dataset-bias-grounding-and-generalization-to-unseen-tasks)
+  - [4.4. System Integration Complexity and Computational Demands](#44-system-integration-complexity-and-computational-demands)
+  - [4.5. Robustness and Ethical Challenges in VLA Deployment](#45-robustness-and-ethical-challenges-in-vla-deployment)
+[5. Discussion](#5-discussion)
+  - [5.1. Potential Solutions](#51-potential-solutions)
+  - [5.2. Future Roadmap](#52-future-roadmap)
+[6. Conclusion](#6-conclusion)
 
 <br>
 
@@ -56,11 +85,9 @@ VLA 모델의 발전 과정은 2022년부터 2025년까지 크게 세 가지 뚜
 <figcaption>Figure 6: Comprehensive timeline of Vision-Language-Action models (2022–2025), showing evolution from foundation to 45 specialized VLA systems. Organized chronologically with thematic grouping.</figcaption>
 </figure>
 
-<br>
-
 **1. 1단계: 기초 통합 (Foundational Integration, 2022–2023)**
 - **목표:** multimodal fusion 아키텍처를 통해 기본적인 시각-운동 능력(visuomotor coordination)을 확립
-- 주요 연구 및 성과:
+- **주요 연구 및 성과:**
   - **CLIPort:** CLIP 임베딩과 모션 기본 요소를 최초로 결합
   - **Gato:** 604개 작업에서 범용적인 성능 입증
   - **RT-1:** 대규모 모방 학습으로 높은 조작 성공률(97%) 달성
@@ -71,7 +98,7 @@ VLA 모델의 발전 과정은 2022년부터 2025년까지 크게 세 가지 뚜
 
 **2. 2단계: 전문화 및 구체화된 추론 (Specialization and Embodied Reasoning, 2024)**
 - **목표:** 특정 도메인에 맞는 귀납적 편향(inductive biases)을 통합하여 성능 최적화
-- 주요 연구 및 성과:
+- **주요 연구 및 성과:**
   - **Deer-VLA:** 검색 증강 훈련으로 퓨샷(few-shot) 적응 능력 향상
   - **Uni-NaVid:** 3D 장면 그래프를 통합하여 내비게이션 성능 최적화
   - **ReVLA:** 가역 아키텍처(reversible architecture)로 메모리 효율성 개선
@@ -80,7 +107,7 @@ VLA 모델의 발전 과정은 2022년부터 2025년까지 크게 세 가지 뚜
 
 **3. 3단계: 일반화 및 안전이 중요한 배포 (Generalization and Safety-Critical Deployment, 2025)**
 - **목표:** 시스템의 견고성(robustness)과 인간 정렬(human-alignment)을 최우선으로 고려
-- 주요 연구 및 성과:
+- **주요 연구 및 성과:**
   - **SafeVLA:** 공식 검증(formal verification)을 통합하여 위험 인식 결정 능력 확보
   - **Humanoid-VLA:** 계층적 VLA를 통해 전신 제어(whole-body control) 입증
   - **MoManipVLA:** 임베디드 배포를 위한 컴퓨팅 효율성 최적화
@@ -94,8 +121,6 @@ VLA 모델의 발전 과정은 2022년부터 2025년까지 크게 세 가지 뚜
 <center><img src="/assets/img/vla_models/3.png" style="zoom: 80%;" /></center>
 <figcaption>Figure 5: Foundational Concept of VLA Models (in an Apple-Picking Scenario)</figcaption>
 </figure>
-
-<br>
 
 VLA 모델의 핵심적인 발전은 비전, 언어, 액션을 하나의 통합된 아키텍처 내에서 공동으로 처리하는 멀티모달 통합 능력에 있습니다. 과거의 전통적인 로봇 시스템은 인식, 자연어 이해, 제어 기능을 각각 독립된 모듈로 취급하고, 이를 수동으로 정의된 인터페이스를 통해 연결했습니다. 이러한 분절된 파이프라인 구조는 적응성이 부족하여 새로운 환경이나 모호한 지시에 대처하기 어려웠고, 사전에 정의된 틀을 벗어나는 명령을 일반화하지 못하는 명백한 한계를 가졌습니다.
 
@@ -116,11 +141,9 @@ VLA 모델을 기존의 시각-언어 아키텍처와 구별 짓는 핵심 혁�
 **1. 접두사 토큰 (Prefix Tokens): 컨텍스트 및 명령 인코딩**
 
 <figure align="center">
-<center><img src="/assets/img/openvla/4.png" style="zoom: 90%;" /></center>
+<center><img src="/assets/img/vla_models/4.png" style="zoom: 90%;" /></center>
 <figcaption>Figure 7: The diagram illustrates the end-to-end tokenization and representation process in VLA models.</figcaption>
 </figure>
-
-<br>
 
 - **역할:** 모델의 **컨텍스트 백본(contextual backbone)** 역할
 - **정보:** 환경 정보(이미지, 비디오)와 자연어 명령을 압축된 임베딩으로 인코딩.
@@ -130,13 +153,13 @@ VLA 모델을 기존의 시각-언어 아키텍처와 구별 짓는 핵심 혁�
   - 두 정보가 **접두사 토큰 시퀀스**로 변환되어 모델의 목표와 환경에 대한 초기 이해를 형성.
 - **기능:** 서로 다른 정보(시각, 언어)를 연결(grounding)하여 "파란색 컵 옆의 녹색 블록"과 같은 공간적, 의미적 관계를 이해하게 함.
 
+<br>
+
 **2. 상태 토큰 (State Tokens): 로봇의 물리적 상태 임베딩**
 <figure align="center">
-<center><img src="/assets/img/openvla/5.png" style="zoom: 90%;" /></center>
+<center><img src="/assets/img/vla_models/5.png" style="zoom: 90%;" /></center>
 <figcaption>Figure 8: Illustrating how VLA models utilize prefix, state, and action tokens in real-world scenarios.</figcaption>
 </figure>
-
-<br>
 
 - **역할:** 로봇의 **내부 물리적 상태**를 실시간으로 인코딩.
 - **정보:** 관절 각도, end-effector 자세, 그리퍼 상태, 힘-토크 센서 값 등 고유수용성(proprioceptive) 정보를 포함.
@@ -145,13 +168,13 @@ VLA 모델을 기존의 시각-언어 아키텍처와 구별 짓는 핵심 혁�
   - **이동 시:** 모바일 로봇의 주행 거리, LiDAR 스캔 데이터 등을 캡슐화하여 지형을 인지하고 장애물을 회피하는 데 필수적임.
 - **기능:** 외부 환경 정보(접두사 토큰)와 내부 상태 정보(상태 토큰)를 융합하여, 상황을 정확히 인식하고 안전하고 정밀한 의사결정을 가능하게 함.
 
+<br>
+
 **3. 액션 토큰 (Action Tokens): 자기회귀적 제어 생성**
 <figure align="center">
-<center><img src="/assets/img/openvla/6.png" style="zoom: 90%;" /></center>
+<center><img src="/assets/img/vla_models/6.png" style="zoom: 90%;" /></center>
 <figcaption>Figure 9: Illustrating the process of how VLAs Encode the World.</figcaption>
 </figure>
-
-<br>
 
 - **역할:** 모델이 생성하는 **최종 출력**으로, 로봇의 다음 행동 단계를 나타냄
 - **정보:** 관절 각도 업데이트, 휠 속도, 그리퍼 힘 조절 등 저수준 제어 신호나 "잡기 자세로 이동" 같은 고수준 행동 명령에 해당
@@ -164,13 +187,13 @@ VLA 모델을 기존의 시각-언어 아키텍처와 구별 짓는 핵심 혁�
 
 로봇 공학에서 VLA 패러다임을 작동시키기 위해 Figure 9에서 멀티모달 정보(특히 시각, 언어 및 고유 수용성 상태)가 인코딩, 융합되고 실행 가능한 동작 시퀀스로 변환되는 방식을 보여주는 구조화된 파이프라인을 제시합니다
 
+<br>
+
 **전체 파이프라인 요약 (Figure 9 및 Algorithm 1 참조)**
 <figure align="center">
-<center><img src="/assets/img/openvla/7.png" style="zoom: 90%;" /></center>
+<center><img src="/assets/img/vla_models/7.png" style="zoom: 90%;" /></center>
 <figcaption>Figure 9: Illustrating the process of how VLAs Encode the World.</figcaption>
 </figure>
-
-<br>
 
 1. **입력 획득:** RGB-D 이미지, 자연어 명령, 로봇 상태(관절 각도 등) 데이터를 수집
 2. **개별 토큰화:**
@@ -183,15 +206,13 @@ VLA 모델을 기존의 시각-언어 아키텍처와 구별 짓는 핵심 혁�
 
 이처럼 VLA의 토큰 기반 프레임워크는 서로 다른 종류의 정보를 일관된 공간에서 통합하고, 이를 통해 지능적이고 유연한 행동을 생성하는 강력한 메커니즘을 제공합니다.
 
+<br>
 
 ## 2.4. Learning Paradigms: Data Sources and Training Strategies
 <figure align="center">
-<center><img src="/assets/img/openvla/8.png" style="zoom: 90%;" /></center>
+<center><img src="/assets/img/vla_models/8.png" style="zoom: 90%;" /></center>
 <figcaption>Figure 10: Learning Paradigms: Data Sources and Training Strategies for VLAs.</figcaption>
 </figure>
-
-<br>
-
 VLA 모델을 훈련시키기 위해서는 웹에서 얻은 방대한 의미론적 지식과 로봇 데이터셋의 실제 작업 정보를 결합하는 하이브리드 학습 패러다임이 필수적입니다. 이 과정은 일반적으로 두 단계로 진행됩니다. 첫 번째 **사전 훈련 단계**에서는 이미지-캡션 쌍과 같은 대규모 인터넷 데이터를 사용하여 모델에 세상에 대한 범용적인 이해와 상식 추론 능력을 주입합니다. 이 단계는 모델이 객체, 행동, 개념에 대한 기본적인 표현을 학습하고 시각과 언어 정보를 하나의 공유된 공간에서 정렬하도록 만들어, 이후 새로운 작업을 수행할 수 있는 기반을 마련합니다.
 
 그러나 의미론적 이해만으로는 물리적인 작업을 실행할 수 없으므로, 두 번째 **파인 튜닝 단계**가 필요합니다. 이 단계에서는 실제 로봇이나 시뮬레이터에서 수집된 궤적 데이터를 사용하여, 사전 훈련으로 얻은 지식을 구체적인 물리적 행동으로 연결하는 방법을 학습시킵니다. 모델은 전문가의 시연을 모방하거나(행동 복제), 보상을 통해 최적의 행동을 찾아가는 방식(강화 학습)으로, 주어진 상황과 명령에 맞는 다음 액션 토큰을 예측하도록 훈련됩니다.
@@ -199,6 +220,8 @@ VLA 모델을 훈련시키기 위해서는 웹에서 얻은 방대한 의미론�
 더 나아가, 최근 연구에서는 웹 데이터와 로봇 데이터를 함께 사용하여 의미와 행동의 정렬을 강화하는 **Co-fine-tuning**, 쉬운 작업부터 복잡한 작업 순으로 학습 효율을 높이는 **커리큘럼 학습(Curriculum Learning)**, 그리고 시뮬레이션과 현실 간의 격차를 해소하는 **도메인 적응(Sim-to-real)**과 같은 더욱 정교한 전략들이 활발히 도입되고 있습니다.
 
 이러한 접근법의 대표적인 사례인 Google의 RT-2는 웹 데이터와 로봇 데모 데이터를 모두 활용할 뿐만 아니라, 로봇의 **행동 생성을 마치 텍스트를 생성하는 문제처럼** 다루어, 처음 보는 명령이나 객체에 대해서도 뛰어난 제로샷(zero-shot) 일반화 능력을 보여주며 VLA 패러다임의 무한한 잠재력을 입증했습니다.
+
+<br>
 
 ## 2.5. Adaptive Control and Real-Time Execution
 VLA는 센서로부터 들어오는 실시간 피드백을 사용하여 즉석에서 행동을 동적으로 조정(adaptive control)할 수 있습니다. 예를 들어, 로봇이 사과를 따는 도중 바람에 사과가 흔들리거나 다른 물체가 시야를 가리면, 모델은 실시간으로 업데이트되는 상태 토큰을 통해 이 변화를 인지하고 즉시 로봇 팔의 궤적을 수정합니다. 이처럼 예측 불가능한 변화가 빈번한 실제 환경에 유연하게 대처하는 능력은 인간과 유사한 적응성을 보여주는 것으로, 정해진 시나리오대로만 움직이는 기존 파이프라인 기반 로봇 시스템과 VLA를 구분 짓는 결정적인 장점입니다.
@@ -219,15 +242,17 @@ VLA 모델의 등장은 ChatGPT와 같은 LLM의 경이로운 성공에 크게 �
 - **개념:** 입력 단계에서 비전과 언어 표현을 먼저 융합한 후, 정책 모듈로 전달
 - **사례: EF-VLA (2025):** CLIP의 고정된 인코더를 사용하여 의미론적 일관성을 유지
 - **장점:** 과적합 감소, 일반화 성능 향상, 계산 효율성 유지, 치명적 망각(catastrophic forgetting) 방지
+
 **2. 이중 시스템 아키텍처 (Dual-System Architectures)**
 - **개념:** 인간 인지의 이중 처리 이론에서 영감을 받아, 두 개의 상호 보완적인 시스템을 구현
   - **System 1 (빠른 반응 모듈):** 저지연(10ms) 확산 정책을 통해 저수준 실시간 제어 담당 (ex. end-effector 안정화 또는 적응형 파지(adaptive grasping))
   - **System 2 (느린 추론 플래너):** LLM 기반 플래너를 통해 고수준 작업 계획을 원자적 하위 작업으로 구문 분석 (ex. 테이블 청소)
 - **사례: Groot N1 (NVIDIA, 2025)**
 - **장점:** 다중 시간 척도 추론 가능, 안전성 향상, 복잡한 작업 수행 능력 증대
+
 **3. 자기 수정 프레임워크 (Self-Correcting Frameworks)**
 - **개념:** 외부 감독 없이 스스로 실패를 감지하고 복구하는 능력
-- **사례:** SC-VLA (2024):
+- **사례: SC-VLA (2024)**:
   - **빠른 추론 경로:** 기본 행동을 신속하게 생성
   - **느린 수정 경로:** 실패 감지 시, LLM을 활용한 **연쇄적 사고(Chain-of-Thought) 추론**으로 실패 원인을 진단하고 수정 전략을 생성 (ex. 활성 시점 변경 또는 그리퍼 재정렬 제안)
 - **장점:** 작업 실패율 감소, 복잡하고 예측 불가능한 환경에서의 견고성(robustness) 향상
@@ -237,7 +262,7 @@ VLA 모델의 등장은 ChatGPT와 같은 LLM의 경이로운 성공에 크게 �
 또한 VLA 모델의 최근 발전을 종합하기 위해 Table 2는 2022년부터 2025년까지 개발된 주목할만한 시스템의 비교 요약을 제시합니다.
 
 <figure align="center">
-<center><img src="/assets/img/openvla/9.png" style="zoom: 90%;" /></center>
+<center><img src="/assets/img/vla_models/9.png" style="zoom: 90%;" /></center>
 <figcaption>Table 2: Summary of VLA models, detailing each model’s name, architecture features, training dataset, and highlighting their key strengths or unique capabilities in robotics and AI tasks.</figcaption>
 </figure>
 
@@ -247,36 +272,36 @@ VLA 모델의 등장은 ChatGPT와 같은 LLM의 경이로운 성공에 크게 �
 VLA 모델은 컴퓨팅 요구 사항을 줄이고 실시간 제어를 가능하게 하는 방향으로 훈련 및 최적화 기술이 빠르게 발전하고 있음. 주요 발전 영역은 아래와 같음.
 
 1. **데이터 효율적 학습 (Data-Efficient Learning)**
-- **목표:** 더 적은 데이터로 더 나은 성능을 달성하고, 데이터 부족 문제를 해결
-- **주요 기술:**
-  - **Co-fine-tuning (공동 파인 튜닝):**
-    - **방법:** 웹 데이터(LAION-5B 등)와 로봇 데이터(Open X-Embodiment 등)를 함께 사용하여 파인 튜닝
-    - **효과:** 의미 이해(semantic)와 운동 기술(motor skill)을 효과적으로 정렬
-    - **사례:** OpenVLA(7B)는 더 큰 모델인 RT-2(55B)보다 16.5% 더 높은 성공률을 달성하며, 적은 파라미터로도 강력한 일반화가 가능함을 입증
-  - **Synthetic Data Generation (합성 데이터 생성):**
-    - **방법:** UniSim과 같은 도구를 사용하여 가려짐(occlusion), 동적 조명(dynamic lighting) 등 현실적인 시나리오를 인공적으로 생성
-    - **효과:** 실제 데이터로 얻기 힘든 희귀한 edge-case를 보강하여, 복잡한 환경에서 모델의 견고성(robustness)을 20% 이상 향상
-  - **Self-Supervised Pretraining (자가 지도 사전 학습):**
-    - **방법:** CLIP처럼 대조 학습(contrastive objectives)을 사용하여, 레이블 없는 데이터로 시각-텍스트 임베딩을 사전 학습
-    - **효과:** 특정 작업 레이블에 대한 의존도를 줄이고, 이후 액션 파인 튜닝 단계의 수렴 속도를 가속화
-    - **사례:** Qwen2-VL은 이 방식을 활용하여 물체 잡기 작업의 수렴 속도를 12% 가속화
+  - **목표:** 더 적은 데이터로 더 나은 성능을 달성하고, 데이터 부족 문제를 해결
+  - **주요 기술:**
+    - **Co-fine-tuning (공동 파인 튜닝):**
+      - **방법:** 웹 데이터(LAION-5B 등)와 로봇 데이터(Open X-Embodiment 등)를 함께 사용하여 파인 튜닝
+      - **효과:** 의미 이해(semantic)와 운동 기술(motor skill)을 효과적으로 정렬
+      - **사례:** OpenVLA(7B)는 더 큰 모델인 RT-2(55B)보다 16.5% 더 높은 성공률을 달성하며, 적은 파라미터로도 강력한 일반화가 가능함을 입증
+    - **Synthetic Data Generation (합성 데이터 생성):**
+      - **방법:** UniSim과 같은 도구를 사용하여 가려짐(occlusion), 동적 조명(dynamic lighting) 등 현실적인 시나리오를 인공적으로 생성
+      - **효과:** 실제 데이터로 얻기 힘든 희귀한 edge-case를 보강하여, 복잡한 환경에서 모델의 견고성(robustness)을 20% 이상 향상
+    - **Self-Supervised Pretraining (자가 지도 사전 학습):**
+      - **방법:** CLIP처럼 대조 학습(contrastive objectives)을 사용하여, 레이블 없는 데이터로 시각-텍스트 임베딩을 사전 학습
+      - **효과:** 특정 작업 레이블에 대한 의존도를 줄이고, 이후 액션 파인 튜닝 단계의 수렴 속도를 가속화
+      - **사례:** Qwen2-VL은 이 방식을 활용하여 물체 잡기 작업의 수렴 속도를 12% 가속화
 2. **파라미터 효율적 적응 (Parameter-Efficient Adaptation)**
-- **목표:** 거대한 모델 전체를 훈련하지 않고, 일부만 수정하여 효율적으로 적응
-- 주요 기술:
-  - LoRA (Low-Rank Adaptation):
-    - **방법:** 사전 훈련된 거대 모델의 가중치는 고정(freeze)하고, 가벼운 어댑터(adapter) 행렬만 추가하여 학습
-    - **효과:** 성능을 유지하면서 훈련해야 할 가중치를 최대 70%까지 줄임
-    - **사례:** $\pi_0$-Fast 모델은 단 10M개의 어댑터 파라미터만 사용하여, 거의 성능 저하 없이 200Hz의 연속 제어를 달성
+  - **목표:** 거대한 모델 전체를 훈련하지 않고, 일부만 수정하여 효율적으로 적응
+  - **주요 기술:**
+    - **LoRA (Low-Rank Adaptation):**
+      - **방법:** 사전 훈련된 거대 모델의 가중치는 고정(freeze)하고, 가벼운 어댑터(adapter) 행렬만 추가하여 학습
+      - **효과:** 성능을 유지하면서 훈련해야 할 가중치를 최대 70%까지 줄임
+      - **사례:** \\(\pi_0\\)-Fast 모델은 단 10M개의 어댑터 파라미터만 사용하여, 거의 성능 저하 없이 200Hz의 연속 제어를 달성
 3. **추론 가속화 (Inference Acceleration)**
-- **목표:** 모델의 실행 속도를 높여 실시간 제어를 가능하게 함
-- 주요 기술:**
-  - **Compressed Action Tokens & Parallel Decoding:**
-    - **방법:** 액션 토큰을 압축하고, 병렬 디코딩 기술을 사용.
-    - **효과:** 궤적의 부드러움은 약간 손해 보지만, 5ms 미만의 초저지연을 달성하고 정책 실행 속도를 2.5배 향상
-    - **사례:** Groot N1과 같은 이중 시스템 프레임워크에서 사용
-  - **Hardware-Aware Optimizations (하드웨어 최적화):**
-    - **방법:** 텐서 코어 양자화(quantization), 파이프라인 어텐션 커널 등 하드웨어 특성에 맞춰 모델을 최적화
-    - **효과:** 런타임 메모리 사용량을 8GB 미만으로 줄여, 임베디드 GPU에서도 실시간 추론이 가능하게 함
+  - **목표:** 모델의 실행 속도를 높여 실시간 제어를 가능하게 함
+  - **주요 기술:**
+    - **Compressed Action Tokens & Parallel Decoding:**
+      - **방법:** 액션 토큰을 압축하고, 병렬 디코딩 기술을 사용.
+      - **효과:** 궤적의 부드러움은 약간 손해 보지만, 5ms 미만의 초저지연을 달성하고 정책 실행 속도를 2.5배 향상
+      - **사례:** Groot N1과 같은 이중 시스템 프레임워크에서 사용
+    - **Hardware-Aware Optimizations (하드웨어 최적화):**
+      - **방법:** 텐서 코어 양자화(quantization), 파이프라인 어텐션 커널 등 하드웨어 특성에 맞춰 모델을 최적화
+      - **효과:** 런타임 메모리 사용량을 8GB 미만으로 줄여, 임베디드 GPU에서도 실시간 추론이 가능하게 함
 
 이러한 다각적인 효율성 향상 기술들은 VLA 모델을 이론적인 개념에서 벗어나, **동적인 실제 환경에서 언어 기반의 시각 유도 작업을 처리할 수 있는 실용적인 에이전트**로 변모시켰음.
 
@@ -287,7 +312,7 @@ VLA 모델은 컴퓨팅 요구 사항을 줄이고 실시간 제어를 가능하
 
 1. **LoRA (Low-Rank Adaptation)**
    - **방법:** 거대한 사전 훈련 모델의 가중치는 고정하고, 작은 훈련 가능한 행렬(어댑터)만 추가하여 파인 튜닝
-   - 효과:
+   - **효과:**
      - GPU 컴퓨팅 자원을 70% 절약하면서 수십억 파라미터 모델을 튜닝 가능
      - 소규모 연구실에서도 소비자용 GPU로 대규모 VLA 모델을 활용할 수 있게 됨
    - **사례:** OpenVLA는 20M 파라미터의 LoRA 어댑터만으로 7B 모델을 24시간 내에 튜닝
@@ -302,24 +327,21 @@ VLA 모델은 컴퓨팅 요구 사항을 줄이고 실시간 제어를 가능하
 4. **Compressed Action Tokenization (FAST)**
    - **방법:** 연속적인 액션 출력을 주파수 영역의 토큰으로 변환하여, 긴 제어 시퀀스를 짧게 압축
    - **효과:** 추론 속도를 15배 향상시켜 200Hz의 초고속 정책 실행이 가능
-   - **사례:** $\pi_0$-Fast 모델은 이 기술로 양손 조립과 같은 동적인 작업에 적합한 고주파 제어를 달성
-
-**5. Parallel Decoding and Action Chunking (병렬 디코딩 및 액션 청킹)**
-- 방법:
+   - **사례:** \\(\pi_0\\)-Fast 모델은 이 기술로 양손 조립과 같은 동적인 작업에 적합한 고주파 제어를 달성
+5. **Parallel Decoding and Action Chunking (병렬 디코딩 및 액션 청킹)**
+- **방법:**
   - **병렬 디코딩:** 액션 토큰을 하나씩 순차적으로 생성하는 대신, 여러 토큰 그룹을 동시에 디코딩
   - **액션 청킹:** "컵 들고 놓기"와 같은 다단계 행동을 하나의 토큰으로 추상화
 - **효과:** Groot N1은 순차적 디코딩의 병목 현상을 해결하여, 지연 시간을 2.5배 단축하고 추론 단계를 40%까지 줄임. 100~200Hz의 빠른 결정 속도를 지원.
-
-**6. Reinforcement Learning–Supervised Hybrid Training (RL-SL 하이브리드 훈련)**
-- 방법:**
+6. **Reinforcement Learning–Supervised Hybrid Training (RL-SL 하이브리드 훈련)**
+- **방법:**
   - 강화 학습(RL)과 인간 시연 데이터 기반의 지도 학습(SL)을 번갈아 가며 훈련
   - Direct Preference Optimization (DPO)을 활용하여 보상 모델을 형성하고 Conservative QLearning을 사용하여 외삽 오류를 방지
 - **효과:**
   - RL의 불안정한 탐색 문제를 안정화하고, SL의 의미 충실도를 유지
   - 순수 RL 대비 샘플 복잡성을 60% 줄이면서, 동적 장애물 회피와 같은 어려운 작업에 대한 강력한 정책을 학습
 - **사례:** iRe-VLA 프레임워크
-
-**7. Hardware-Aware Optimizations (하드웨어 최적화)**
+7. **Hardware-Aware Optimizations (하드웨어 최적화)**
 - **방법:** NVIDIA TensorRT-LLM과 같은 컴파일러를 사용하여, 타겟 하드웨어의 기능(ex. 텐서 코어, fused attention 등)을 최대한 활용하도록 모델 그래프와 커널을 최적화
 - **효과:** OpenVLA-OFT는 추론 지연 시간을 30%, 에너지 소비를 25% 감소시켜 모바일 로봇이나 드론과 같은 전력 제한적인 환경에서도 실시간 VLA 구동을 가능하게 함
 
@@ -333,7 +355,7 @@ VLA 모델은 지각, 자연어 이해, 모터 제어를 하나의 아키텍처�
 부록의 Table 3은 방법론, 응용 분야 및 주요 혁신을 요약하여 최근 VLA 모델을 보여줍니다.
 
 <figure align="center">
-<center><img src="/assets/img/openvla/10.png" style="zoom: 90%;" /></center>
+<center><img src="/assets/img/vla_models/10.png" style="zoom: 90%;" /></center>
 <figcaption>Table 3: Comparison of VLA methodologies, application areas, and innovations. This comprehensive table compares cutting-edge VLA models by summarizing their methodologies, application domains, and key innovations.</figcaption>
 </figure>
 
@@ -341,11 +363,9 @@ VLA 모델은 지각, 자연어 이해, 모터 제어를 하나의 아키텍처�
 
 ### 3.4.1. Humanoid Robotics
 <figure align="center">
-<center><img src="/assets/img/openvla/11.png" style="zoom: 90%;" /></center>
+<center><img src="/assets/img/vla_models/11.png" style="zoom: 90%;" /></center>
 <figcaption>Figure 12: This figure illustrates “Helix,” a next-generation humanoid robot executing a household task using a VLA framework.</figcaption>
 </figure>
-
-<br>
 
 VLA 모델은 인간의 형태와 기능을 모방하는 휴머노이드 로봇 분야에 혁신을 가져오고 있습니다. 이러한 혁신의 핵심에는 기존의 분리된 모듈 방식에서 벗어난 **통합 토큰 기반 프레임워크**가 있습니다. 이 아키텍처는 시각 정보(DINOv2, SigLIP 등)와 언어 명령(Llama-2, GPT 등)을 각각 토큰으로 변환하고, 이를 융합하여 상황을 종합적으로 이해한 뒤, 로봇의 움직임을 나타내는 행동 토큰을 순차적으로 생성합니다.
 
@@ -359,11 +379,9 @@ Figure AI가 개발한 **'Helix'** 는 이러한 아키텍처의 대표적인 �
 
 ### 3.4.2. Autonomous Vehicle Systems
 <figure align="center">
-<center><img src="/assets/img/openvla/12.png" style="zoom: 90%;" /></center>
+<center><img src="/assets/img/vla_models/12.png" style="zoom: 90%;" /></center>
 <figcaption>Figure 13: This illustration depicts an autonomous delivery vehicle powered by a VLA system, integrating VLMs for visual grounding, LLMs for instruction parsing, and a VLA decoder for path planning.</figcaption>
 </figure>
-
-<br>
 
 자율 주행 시스템에서 VLA 모델은 기존의 '인식-계획-제어'가 분리된 모듈식 접근법과 달리, 시각 정보, 자연어 지시, 각종 센서 데이터를 **하나의 통합된 프레임워크** 내에서 처리하여 정밀한 운전 행동을 직접 생성합니다. 이를 통해 자율주행차는 단순히 객체를 인식하는 것을 넘어, "빨간 트럭 다음 출구로 나가세요"와 같은 복잡한 언어적, 상황적 맥락을 이해하고 그에 맞는 주행을 할 수 있게 됩니다.
 
@@ -382,11 +400,9 @@ Figure AI가 개발한 **'Helix'** 는 이러한 아키텍처의 대표적인 �
 
 ### 3.4.4. Healthcare and Medical Robotics
 <figure align="center">
-<center><img src="/assets/img/openvla/13.png" style="zoom: 90%;" /></center>
+<center><img src="/assets/img/vla_models/13.png" style="zoom: 90%;" /></center>
 <figcaption>Figure 14: a) This figure illustrates a VLA surgical system executing the task “apply a suture to the left coronary artery.”; b) A VLA-powered as- sistive robot perceives patient behavior, processes verbal requests (e.g., “bring my walker”).</figcaption>
 </figure>
-
-<br>
 
 수술 로봇 분야에서 VLA는 최소 침습 수술(minimally invasive operations)의 기능을 극대화합니다. 로봇은 복강경 영상과 외과의의 음성 명령("왼쪽 관상 동맥에 봉합사 적용")을 동시에 이해하고, 이를 서브밀리미터 단위의 정밀한 모션으로 변환하여 실행합니다. 이를 통해 도구를 자율적으로 재배치하거나 중요 조직을 회피함으로써 외과의의 부담과 인적 오류를 크게 줄일 수 있습니다.
 
@@ -396,11 +412,9 @@ Figure AI가 개발한 **'Helix'** 는 이러한 아키텍처의 대표적인 �
 
 ### 3.4.5. Precision and Automated Agriculture
 <figure align="center">
-<center><img src="/assets/img/openvla/14.png" style="zoom: 90%;" /></center>
+<center><img src="/assets/img/vla_models/14.png" style="zoom: 90%;" /></center>
 <figcaption>Figure 15: This diagram illustrates the application of VLA models in precision and automated agriculture.</figcaption>
 </figure>
-
-<br>
 
 VLA 모델은 정밀 및 자동화 농업 분야에서 가려진 작물을 인식하고, 불규칙한 지형을 탐색하며, 다양한 작물 유형에 유연하게 대응할 수 있습니다.
 
@@ -412,7 +426,7 @@ VLA의 **지속적인 학습과 뛰어난 일반화 능력**으로, 실제 같�
 
 ### 3.4.6. Interactive AR Navigation with Vision-Language-Action Models
 <figure align="center">
-<center><img src="/assets/img/openvla/15.png" style="zoom: 90%;" /></center>
+<center><img src="/assets/img/vla_models/15.png" style="zoom: 90%;" /></center>
 <figcaption>Figure 16: Showing how VLA models enable interactive AR navigation by fusing real-time visual perception, language understanding, and action planning.</figcaption>
 </figure>
 
@@ -426,19 +440,19 @@ VLA 모델은 대화형 증강현실(AR) 내비게이션 분야에서 인간과 
 
 # 4. Challenges and Limitations of Vision-Language-Action Models
 VLA 모델이 연구 프로토타입을 넘어 실제 시스템으로 발전하기 위해서는 다음과 같은 상호 연관된 과제들을 해결해야 합니다.
-1. 실시간 추론 및 계산 효율성:
+1. **실시간 추론 및 계산 효율성:**
    - **문제점:** 복잡한 시나리오에서 실시간으로 작동하기 위한 계산량 감소가 여전히 어려움 (ex. DeeR-VLA, UniNaVid)
    - **영향:** 드론, 로봇 팔 등 즉각적인 반응이 필요한 실제 환경에서의 배포를 저해
-2. 일반화 및 데이터 효율성:
+2. **일반화 및 데이터 효율성:**
    - **문제점:** 처음 보는 객체나 환경에 대한 일반화 능력이 아직 부족 (ex. ObjectVLA는 신규 객체의 64%만 일반화). 최소한의 데이터로 안정적인 정책을 학습하는 것이 어려움 (ex. ConRFT는 전문가 개입에 크게 의존)
    - **영향:** 개방형(open-world) 환경에서의 강건성 및 신뢰성 부족
-3. 안전성 및 신뢰성 보장:
+3. **안전성 및 신뢰성 보장:**
    - **문제점:** 동적인 실제 환경에서 안전을 보장하고, 예측 불가능한 상황에 대처하는 것이 힘듦. 다양한 실제 작업에 적용 가능한 포괄적인 안전 규칙 정의가 난제 (ex. SafeVLA)
    - **영향:** 고위험 환경(의료, 자율주행 등)에서의 상용화에 큰 장벽
-4. 시스템 통합 및 복잡성:
+4. **시스템 통합 및 복잡성:**
    - **문제점:** 다중 모달리티(시각, 언어, 촉각 등)를 통합하고, 계층적 프레임워크(고수준 추론 + 저수준 실행)를 조율하는 것이 복잡함 (ex. Hi Robot, TLA). 모델 병합 전략(ReVLA)은 계산 복잡도를 증가시킴
    - **영향:** 시스템 개발 및 유지보수의 어려움 증가
-5. 데이터 편향 및 윤리적 문제:
+5. **데이터 편향 및 윤리적 문제:**
    - **문제점:** 훈련 데이터셋의 편향이 모델의 공정성과 의미론적 정확성에 영향을 미침
    - **영향:** 특정 상황이나 대상에 대해 왜곡되거나 비윤리적인 행동을 할 수 있는 잠재적 위험
 
@@ -447,7 +461,6 @@ VLA 모델이 연구 프로토타입을 넘어 실제 시스템으로 발전하�
 <br>
 
 ## 4.1. Real-Time Inference Constraints
-
 실시간 추론 능력은 VLA 모델을 로봇 조작이나 자율 주행과 같이 즉각적인 반응이 필수적인 분야에 배포하는 데 있어 가장 큰 제약 조건 중 하나입니다. 대부분의 VLA 모델이 사용하는 **자기회귀 디코딩 방식**은 행동 토큰을 하나씩 순차적으로 생성하기 때문에, 추론 속도가 보통 3~5Hz에 그칩니다. 이는 실제 로봇 시스템이 요구하는 100Hz 이상의 제어 주파수에 현저히 미치지 못하여 동적인 환경에서의 활용을 크게 제한합니다.
 
 이 문제를 해결하기 위해 **병렬 디코딩**과 같은 새로운 기술이 등장하여 여러 토큰을 동시에 예측함으로써 속도를 높이려는 시도가 있었습니다. NVIDIA의 Groot N1 모델이 대표적인 예로, 속도를 약 2.5배 향상시켰지만, 이는 로봇 움직임의 부드러움을 희생하는 대가로 이루어졌습니다. 이러한 갑작스러운 움직임은 특히 수술 로봇과 같이 극도의 정밀성이 요구되는 분야에서는 용납되기 어렵습니다.
@@ -464,26 +477,26 @@ VLA 모델이 로봇의 행동을 어떻게 표현하고 생성하는가에 대�
 
 **1. Multimodal Action Representation**
 첫 번째 중요한 한계점은 지속적이고 미묘한 제어가 필요한 시나리오에서 멀티모달 행동을 정확하게 표현하는 것입니다.
-- 이산적(Discrete) 토큰화 방식:
+- **이산적(Discrete) 토큰화 방식:**
   - **개념:** 행동을 256개와 같이 정해진 수의 '이산값(bin)'으로 나누어 표현
   - **한계:** **정밀도가 부족**하여 섬세한 잡기(grasping)나 외과 수술 같은 미세 작업에서 큰 오류를 유발. 부정확한 움직임으로 이어져 성능과 신뢰성을 저해함
-- 연속적(Continuous) MLP 기반 방식:
+- **연속적(Continuous) MLP 기반 방식:**
   - **개념:** 행동을 연속적인 값으로 표현
   - **한계:** 여러 가능한 행동 경로가 있음에도 불구하고, 모델이 **하나의 경로로만 섣불리 수렴하는 '모드 붕괴(mode collapse)'** 현상이 발생. 이는 동적인 환경에서 필요한 적응성과 유연성을 크게 감소시킴.
-- 확산(Diffusion) 기반 정책:
-  - **개념:** 다양한 행동 가능성을 포착할 수 있는 풍부한 다중 모달리티 행동 표현을 제공 (ex. $\pi_0$, RDT-1B)
+- **확산(Diffusion) 기반 정책:**
+  - **개념:** 다양한 행동 가능성을 포착할 수 있는 풍부한 다중 모달리티 행동 표현을 제공 (ex. \\(\pi_0\\), RDT-1B)
   - **한계:** 기존 방식보다 **계산 비용이 약 3배 더 높아** 실시간 배포가 비현실적임
 - **결론:** 현재 VLA 모델은 여러 전략이 모두 유효할 수 있는 복잡하고 동적인 작업(ex. 혼잡한 공간 탐색, 양손 조작)에서 효과적인 행동을 생성하는 데 어려움을 겪고 있음.
 
 **2. Safety Assurance in Open Worlds**
 실제 환경의 예측 불가능성 속에서 안전을 보장하는 것은 VLA의 또 다른 중대한 과제입니다.
-- 경직된 안전 규칙:
+- **경직된 안전 규칙:**
   - **문제점:** 대부분의 시스템이 사전에 설정된 **고정된 힘/토크 임계값**에 의존함.
   - **한계:** 예상치 못한 장애물이나 갑작스러운 환경 변화에 대한 **적응성이 매우 떨어짐**.
-- 부정확한 충돌 예측:
+- **부정확한 충돌 예측:**
   - **문제점:** 현재 충돌 예측 모델의 정확도는 혼잡한 공간에서 **약 82%에 불과함**.
   - **한계:** 창고 물류나 가정용 로봇처럼 안전 마진이 거의 없는 환경에서 심각한 위험을 초래할 수 있음.
-- 비상 정지 메커니즘의 지연:
+- **비상 정지 메커니즘의 지연:**
   - **문제점:** 필수적인 안전 검증 절차로 인해, 비상 정지와 같은 안전 기능이 작동하는 데 **상당한 지연 시간(200~500ms)**이 발생
   - **한계:** 이 짧은 지연 시간조차 자율 주행이나 긴급 구조 로봇과 같이 고속으로 작동하는 환경에서는 치명적인 결과를 낳을 수 있음.
 
@@ -508,7 +521,7 @@ VLA 모델이 실제 세계에서 신뢰를 얻기 위해서는 현재의 기술
   - **결과:** 예측 불가능한 실제 세계의 다양성에 대처하는 능력이 떨어짐.
 - **보이지 않는 작업으로의 일반화(broader issue of generalization to unseen tasks) 한계**
   - **문제점:** 모델이 훈련 데이터와 유사한 환경이나 작업에서는 뛰어난 성능을 보이지만, **완전히 새로운 작업이나 환경에 직면하면 성능이 급격히 저하**됨 (최대 40%까지 성능 저하).
-  - 원인:
+  - **원인:**
     - **과적합(Overfitting):** 좁은 범위의 훈련 데이터 분포에 과도하게 최적화됨.
     - **다양성 부족:** 다양한 작업 표현에 대한 학습이 불충분함.
   - **사례:** 가정용 작업에 특화된 VLA 모델을 산업 현장이나 농업 환경에 투입하면, 객체, 환경, 제약 조건이 달라져 제대로 작동하지 못하거나 완전히 실패함.
@@ -521,7 +534,7 @@ VLA 모델의 실용적인 배포를 위해서는 편향이 제거된 **균형 �
 ## 4.4. System Integration Complexity and Computational Demands
 VLA 모델을 실제 로봇에 통합하는 과정에서 발생하는 세 가지 주요 문제입니다.
 - **이중 시스템 아키텍처의 딜레마: 시간적 불일치 (Temporal Misalignment)**
-  - 개념:
+  - **개념:**
     VLA는 보통 두 개의 시스템으로 구성됨.
     - **System 2 (계획 시스템):** LLM(GPT, Llama-2 등)을 사용해 고수준의 복잡한 계획을 세움. **매우 느림 (추론에 약 800ms 이상 소요)**.
     - **System 1 (제어 시스템):** 저수준의 빠른 모터 제어를 실행. **매우 빠름 (약 10ms 간격으로 작동)**.
@@ -549,11 +562,9 @@ VLA 모델을 실제 환경에 배포하는 데에는 **'환경적 강건성(Rob
 
 # 5. Discussion
 <figure align="center">
-<center><img src="/assets/img/openvla/16.png" style="zoom: 90%;" /></center>
+<center><img src="/assets/img/vla_models/16.png" style="zoom: 90%;" /></center>
 <figcaption>Figure 17: Figure maps six core VLA challenges.</figcaption>
 </figure>
-
-<br>
 
 VLA 모델은 실제 환경에 적용되기 위해 알고리즘, 컴퓨팅, 윤리 차원에서 다음과 같은 다면적 과제에 직면해 있습니다.
 1. **실시간 추론의 어려움:** 자기회귀 디코더의 순차적 특성과 고차원 입력 때문에, 제한된 하드웨어에서 실시간 작동이 힘듦.
@@ -592,10 +603,10 @@ VLA 모델은 실제 환경에 적용되기 위해 알고리즘, 컴퓨팅, 윤�
    - **하드웨어-소프트웨어 공동 설계:** VLA 워크로드에 특화된 하드웨어 가속기와 최적화된 툴체인(TensorRT-LLM)을 개발하여 저전력 환경에서 고성능 달성
    - **효율적인 아키텍처 개발:** 1B 파라미터 미만의 TinyVLA와 같이 작지만 강력한 모델을 설계
 5. **Robustness and Ethical Challenges in VLA Deployment.**
-   - 강건성 향상:
+   - **강건성 향상:**
      - **도메인 랜덤화:** 사실적인 시뮬레이터를 통해 조명, 가려짐 등 다양한 환경 변화에 대한 모델의 저항력을 키움
      - **적응형 재보정:** 실시간 피드백으로 센서 드리프트 등을 보정
-   - 윤리적 문제 해결:
+   - **윤리적 문제 해결:**
      - **편향 감사 및 제거:** 훈련 데이터를 분석하고, 적대적 편향 제거(adversarial debiasing) 기법으로 수정
      - **개인정보 보호:** 온디바이스 처리, 동형 암호, 차등 개인정보보호 기술을 적용하여 사용자 데이터 보호
      - **사회/경제적 영향 관리:** 투명한 영향 평가와 업스킬링 프로그램을 통해 인간 노동을 대체하는 대신 보완하도록 유도
